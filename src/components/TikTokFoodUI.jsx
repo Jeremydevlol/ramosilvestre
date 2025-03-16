@@ -11,7 +11,7 @@ import { FiShoppingCart } from "react-icons/fi"
 
 // ====== SWIPER IMPORTS (versión 10+)
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Pagination, Navigation } from "swiper/modules"
+import { Pagination } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
@@ -235,86 +235,38 @@ const TikTokFoodUI = () => {
         ))}
       </Swiper>
 
-      {/* NAVEGACIÓN INFERIOR (ICONOS) */}
+      {/* NAVEGACIÓN INFERIOR (ICONOS) - Versión simplificada sin Swiper para mejor compatibilidad */}
       <motion.nav
         className="fixed bottom-0 backdrop-blur-md w-full z-50 h-[65px]"
         style={{
           boxShadow: "0px -5px 8px #00000040",
           backgroundColor: "rgba(17, 16, 42, 0.57)",
           borderRadius: "10px 10px 0 0",
-          padding: "0px",
-          paddingLeft,
-          paddingRight,
         }}
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <Swiper
-          modules={[Navigation]}
-          slidesPerView={4}
-          initialSlide={activeSectionIndex}
-          onSwiper={(swiper) => {
-            sectionsSwiperRef.current = swiper
-            if (swiper.isBeginning) {
-              setPaddingLeft("10px")
-              setPaddingRight("35px")
-            }
-            if (swiper.isEnd) {
-              setPaddingRight("10px")
-              setPaddingLeft("35px")
-            }
-          }}
-          onSlideChange={(swiper) => {
-            if (swiper.isBeginning) {
-              setPaddingLeft("10px")
-              setPaddingRight("35px")
-            }
-            if (swiper.isEnd) {
-              setPaddingRight("10px")
-              setPaddingLeft("35px")
-            }
-          }}
-          navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
-          }}
-          style={{ display: "flex", position: "static" }}
-          className="justify-center items-center w-full px-8 h-full"
-        >
+        <div className="flex justify-around items-center h-full px-2">
           {currentSections.map((section, index) => {
             const IconComp = section.icon
             return (
-              <SwiperSlide
+              <motion.button
                 key={section.id}
-                className="w-auto flex justify-center items-center"
-                style={{ width: "20%", display: "flex" }}
+                onClick={() => handleSectionChange(index)}
+                className={`flex flex-col items-center p-2 focus:outline-none rounded-lg ${
+                  activeSectionIndex === index ? "text-customPink-500" : "text-white/80 hover:text-white"
+                }`}
+                whileHover={buttonVariants.hover}
+                whileTap={buttonVariants.tap}
+                aria-label={typeof section.label === "string" ? section.label : "Ramo Silvestre"}
               >
-                <motion.button
-                  onClick={() => handleSectionChange(index)}
-                  className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item ${
-                    activeSectionIndex === index ? "active text-customPink-500" : "text-white-400 hover:text-white"
-                  }`}
-                  whileHover={buttonVariants.hover}
-                  whileTap={buttonVariants.tap}
-                  aria-label={typeof section.label === "string" ? section.label : "Ramo Silvestre"}
-                >
-                  <IconComp className="text-3xl" />
-                </motion.button>
-              </SwiperSlide>
+                <IconComp className="text-2xl" />
+                {section.id === "workshops" && <span className="text-xs mt-1">Talleres</span>}
+              </motion.button>
             )
           })}
-          <motion.button
-            className="swiper-button-prev"
-            whileHover={buttonVariants.hover}
-            whileTap={buttonVariants.tap}
-          />
-          <motion.button
-            className="swiper-button-next absolute right-0 p-2 text-gray-300 hover:text-white"
-            whileHover={buttonVariants.hover}
-            whileTap={buttonVariants.tap}
-          />
-        </Swiper>
+        </div>
       </motion.nav>
     </div>
   )
