@@ -59,7 +59,7 @@ const MenuItem = ({ post, postIndex }) => {
       variants={cardVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="bg-[#001a1a]/80 rounded-2xl overflow-hidden backdrop-blur-sm border border-white/5 mb-4"
+      className="bg-black/80 rounded-2xl overflow-hidden backdrop-blur-sm border border-customPink-500/10 mb-4"
     >
       <div className="p-4">
         <div className="flex gap-4">
