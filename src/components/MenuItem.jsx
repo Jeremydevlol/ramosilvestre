@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useStore from "../store/store"
 import { translations } from "../data/constants"
-import { FaHeart, FaPlus } from "react-icons/fa"
+import { FaHeart, FaPlus, FaInstagram } from "react-icons/fa"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { handleAddToCart, handleAddToFavorite } from "../utils/utils"
@@ -31,6 +31,12 @@ const MenuItem = ({ post, postIndex }) => {
   const handleContainerClick = () => {
     setSelectedItem(post)
     navigate(`/details/ramosilvestre`)
+  }
+
+  // Función para abrir Instagram
+  const openInstagram = (e) => {
+    e.stopPropagation()
+    window.open("https://www.instagram.com/ramosilvestre_/", "_blank")
   }
 
   const cardVariants = {
@@ -107,14 +113,29 @@ const MenuItem = ({ post, postIndex }) => {
               >
                 {post.title}
               </motion.h3>
-              <motion.p
-                className="text-lg font-bold text-[#E8B4B8]"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                {post.price}
-              </motion.p>
+              <div className="flex items-center justify-between">
+                <motion.p
+                  className="text-lg font-bold text-[#E8B4B8]"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {post.price}
+                </motion.p>
+
+                <motion.button
+                  onClick={(e) => openInstagram(e)}
+                  className="flex items-center gap-1 text-sm text-white/70 hover:text-[#E8B4B8] transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <FaInstagram />
+                  <span>@{post.author}</span>
+                </motion.button>
+              </div>
             </div>
 
             {/* Chef's suggestion badge */}
