@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { createJSONStorage, persist } from "zustand/middleware"
+import { persist } from "zustand/middleware"
 
 const useStore = create(
   persist(
@@ -73,7 +73,6 @@ const useStore = create(
     }),
     {
       name: "florist-storage",
-      storage: createJSONStorage(() => localStorage),
     },
   ),
 )
