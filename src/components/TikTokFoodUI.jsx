@@ -262,7 +262,7 @@ const TikTokFoodUI = () => {
                 aria-label={typeof section.label === "string" ? section.label : "Ramo Silvestre"}
               >
                 <IconComp className="text-2xl" />
-                {section.id === "workshops" && <span className="text-xs mt-1">Talleres</span>}
+                {/* No text labels for icons */}
               </motion.button>
             )
           })}
