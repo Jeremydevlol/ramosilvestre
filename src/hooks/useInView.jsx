@@ -10,17 +10,23 @@ const useInView = (ref, options = {}) => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Use a small delay to prevent flickering during fast scrolling
-        const timer = setTimeout(() => {
-          setIsInView(entry.isIntersecting)
-        }, 50)
+        // Usar un umbral más bajo para activar antes
+        if (entry.isIntersecting) {
+          // Pequeño retraso para evitar parpadeos durante el desplazamiento rápido
+          const timer = setTimeout(() => {
+            setIsInView(true)
+          }, 50)
 
-        return () => clearTimeout(timer)
+          return () => clearTimeout(timer)
+        } else {
+          // Sin retraso al salir de la vista
+          setIsInView(false)
+        }
       },
       {
         root: null,
         rootMargin: "0px",
-        threshold: options.threshold || 0.5,
+        threshold: options.threshold || 0.3, // Umbral más bajo
         ...options,
       },
     )
@@ -33,7 +39,7 @@ const useInView = (ref, options = {}) => {
         observer.unobserve(currentRef)
       }
     }
-  }, [ref, options.threshold])
+  }, [ref, options])
 
   return isInView
 }
