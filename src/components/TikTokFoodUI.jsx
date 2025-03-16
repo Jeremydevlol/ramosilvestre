@@ -141,16 +141,8 @@ const TikTokFoodUI = () => {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="flex items-center justify-between h-full relative">
-          {/* Left - Back Button */}
-          <motion.button
-            onClick={() => navigate(-1)}
-            className="w-9 h-9 flex items-center justify-center bg-black/30 rounded-full"
-            whileHover={buttonVariants.hover}
-            whileTap={buttonVariants.tap}
-            aria-label="Volver"
-          >
-            <Icon icon="pepicons-pencil:arrow-left" width="20" height="20" />
-          </motion.button>
+          {/* Left - Empty space (no back button in main view) */}
+          <div className="w-9 h-9"></div>
 
           {/* Center - Logo */}
           <motion.div
