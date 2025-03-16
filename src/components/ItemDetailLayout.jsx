@@ -7,22 +7,23 @@ import { motion } from "framer-motion"
 import useStore from "../store/store"
 import { FaHeart, FaPlus } from "react-icons/fa"
 import { MdOutlineRestaurantMenu } from "react-icons/md"
+import { translations, languageFlags } from "../data/constants"
 
 const ItemDetailLayout = () => {
   const navigate = useNavigate()
-  const { addToCart, selectedItem, favorites, toggleFavorite } = useStore()
+  const { addToCart, selectedItem, favorites, toggleFavorite, language } = useStore()
   const [isPlaying, setIsPlaying] = useState(false)
   const [expanded, setExpanded] = useState(false)
 
   // Para volver a la vista anterior
   const handleBack = () => {
-    navigate("/cart/atv4ruedasgalipan")
+    navigate("/cart/ramosilvestre")
   }
 
   // Añadir al carrito y navegar a /cart
   const handleAddToCartAndGoCart = () => {
     addToCart(selectedItem)
-    navigate("/cart/atv4ruedasgalipan")
+    navigate("/cart/ramosilvestre")
   }
 
   // Asegura que al montar el componente, se scrollee al top
@@ -53,7 +54,7 @@ const ItemDetailLayout = () => {
 
         <div className="flex space-x-4">
           <Icon icon="clarity:note-line" className="text-white" width="24" height="24" />
-          <Icon icon="twemoji:flag-united-kingdom" width="24" height="24" />
+          <Icon icon={languageFlags[language]} width="24" height="24" />
         </div>
       </div>
 
@@ -135,7 +136,7 @@ const ItemDetailLayout = () => {
               transition={{ delay: 0.4 }}
             >
               <MdOutlineRestaurantMenu className="text-[#E8B4B8]" />
-              <span className="text-[#E8B4B8] font-medium">Chef's suggestion</span>
+              <span className="text-[#E8B4B8] font-medium">{translations[language]?.chefSuggestion}</span>
             </motion.div>
           )}
         </div>
@@ -161,7 +162,7 @@ const ItemDetailLayout = () => {
             transition={{ duration: 0.5 }}
             className="mb-8"
           >
-            <h2 className="text-2xl font-bold mb-4">Allergens</h2>
+            <h2 className="text-2xl font-bold mb-4">{translations[language]?.allergens}</h2>
             <div className="space-y-3">
               {["Cereals containing gluten", "Dairy", "Eggs"].map((allergen, index) => (
                 <div key={index} className="flex items-center gap-3">
@@ -180,3 +181,4 @@ const ItemDetailLayout = () => {
 }
 
 export default ItemDetailLayout
+
