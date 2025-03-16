@@ -210,8 +210,8 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
         <motion.button
           onClick={() => navigate("/menu/ramosilvestre")}
           className="w-11 h-11 backdrop-blur-sm bg-black/50 rounded-full
-                   hover:bg-white/10 active:bg-white/20 flex items-center justify-center
-                   shadow-lg shadow-black/10 border border-white/20"
+                  hover:bg-white/10 active:bg-white/20 flex items-center justify-center
+                  shadow-lg shadow-black/10 border border-white/20"
           whileHover={buttonVariants.hover}
           whileTap={buttonVariants.tap}
           initial={{ opacity: 0, x: 20 }}
