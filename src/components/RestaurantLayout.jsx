@@ -318,7 +318,6 @@ const RestaurantLayout = () => {
                 aria-label={section.label}
               >
                 <IconComp className="text-3xl" />
-                {section.id === "workshops" && <span className="text-xs mt-1">Talleres</span>}
               </motion.button>
             )
           })}
