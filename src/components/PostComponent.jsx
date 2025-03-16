@@ -158,6 +158,9 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
             onPlaying={() => setIsPlaying(true)}
           />
         )}
+
+        {/* Gradient overlay for better text visibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
       </motion.div>
 
       {/* BOTONES DERECHA (Favorito, Añadir, etc.) */}
@@ -217,9 +220,9 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
 
       {/* INFORMACIÓN DEL POST */}
       <div
-        className="absolute bottom-0 flex z-10 pt-[10px] w-full"
+        className="absolute bottom-0 flex z-10 w-full"
         style={{
-          paddingBottom: isMobile() ? "var(--navbar-height-mobile)" : "var(--navbar-height)",
+          paddingBottom: isMobile() ? "calc(var(--navbar-height-mobile) + 20px)" : "calc(var(--navbar-height) + 20px)",
         }}
       >
         <section className="w-full items-end justify-between px-5 py-4">
@@ -256,21 +259,19 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
               initial="hidden"
               animate="visible"
             >
-              <div className="bg-black/40 backdrop-blur-sm p-3 rounded-lg">
-                <p className="text-white text-lg drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
-                  {expandedPost === post.id ? post.longDescription : post.description}
-                  {expandedPost !== post.id && (
-                    <motion.span
-                      onClick={() => handleExpand(post.id)}
-                      className="underline cursor-pointer ml-2 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {translations[language].seeMore}
-                    </motion.span>
-                  )}
-                </p>
-              </div>
+              <p className="text-white text-lg drop-shadow-[0_1px_2px_rgba(0,0,0,1)]">
+                {expandedPost === post.id ? post.longDescription : post.description}
+                {expandedPost !== post.id && (
+                  <motion.span
+                    onClick={() => handleExpand(post.id)}
+                    className="underline cursor-pointer ml-2 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {translations[language].seeMore}
+                  </motion.span>
+                )}
+              </p>
 
               {/* SI EXPANDIDO: VER MENOS */}
               <AnimatePresence>
