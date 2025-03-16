@@ -11,6 +11,7 @@ import { useRef, useEffect, useState, memo } from "react"
 import { translations } from "../data/constants"
 import useInView from "../hooks/useInView"
 import { handleAddToCart, handleAddToFavorite } from "../utils/utils"
+import { FaInstagram } from "react-icons/fa"
 
 const buttonVariants = {
   hover: {
@@ -57,6 +58,12 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
   const isInView = useInView(containerRef, { threshold: 0 })
   // Detectar si el video debe reproducirse
   const shouldPlay = useInView(videoRef, { threshold: 0.85 })
+
+  // Función para abrir Instagram
+  const openInstagram = (e) => {
+    e.stopPropagation()
+    window.open("https://www.instagram.com/ramosilvestre_/", "_blank")
+  }
 
   useEffect(() => {
     if (videoRef.current) {
@@ -276,9 +283,15 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
                 {post.price}
               </motion.p>
 
-              <motion.p className="text-base text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
-                @{post.author}
-              </motion.p>
+              <motion.button
+                onClick={openInstagram}
+                className="flex items-center gap-1 text-base text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)] hover:text-[#E8B4B8] transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaInstagram className="text-lg" />
+                <span>@{post.author}</span>
+              </motion.button>
             </motion.div>
 
             {/* DESCRIPCIÓN */}
@@ -297,7 +310,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {translations[language]?.seeMore || "Ver más"}
+                    {translations[language]?.seeMore || "Ver Más"}
                   </motion.span>
                 )}
               </p>
