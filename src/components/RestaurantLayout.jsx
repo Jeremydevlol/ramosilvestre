@@ -184,79 +184,79 @@ const RestaurantLayout = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="relative flex items-center justify-between h-[42px]">
             {/* Flecha atrás */}
-            <motion.button
-              className="
-             text-white
-             transition-colors
-             duration-300
-             z-10
-           "
-              onClick={() => navigate("/slider/ramosilvestre")}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <Icon icon="pepicons-pencil:arrow-left" width="28" height="28" className="inline-block" />
-            </motion.button>
-
-            {/* Logo central */}
-            <motion.div
-              className="absolute left-1/2 transform -translate-x-1/2"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              <LogoImage className="h-8 w-auto" />
-            </motion.div>
-
-            {/* Carrito a la derecha */}
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
+            <div className="flex-1">
               <motion.button
-                onClick={() => navigate("/cart/ramosilvestre")}
-                className="relative"
+                className="text-white transition-colors duration-300 z-10"
+                onClick={() => navigate("/slider/ramosilvestre")}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
               >
-                <Icon
-                  icon="mdi:shopping-cart"
-                  width="24"
-                  height="24"
-                  className="text-white transition-colors duration-300"
-                />
-                {cartItems.length > 0 && (
-                  <motion.span
-                    className="
-                   absolute
-                   -top-2
-                   -right-2
-                   bg-gradient-to-r
-                   from-customPink-500
-                   to-customPink-600
-                   text-white
-                   text-xs
-                   rounded-full
-                   h-5
-                   w-5
-                   flex
-                   items-center
-                   justify-center
-                 "
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
-                  >
-                    {cartItems.reduce((sum, it) => sum + (it.quantity || 1), 0)}
-                  </motion.span>
-                )}
+                <Icon icon="pepicons-pencil:arrow-left" width="28" height="28" className="inline-block" />
               </motion.button>
-            </motion.div>
+            </div>
+
+            {/* Logo central */}
+            <div className="flex-1 flex justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <LogoImage className="h-8 w-auto" />
+              </motion.div>
+            </div>
+
+            {/* Carrito a la derecha */}
+            <div className="flex-1 flex justify-end">
+              <motion.div
+                className="relative"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <motion.button
+                  onClick={() => navigate("/cart/ramosilvestre")}
+                  className="relative"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <Icon
+                    icon="mdi:shopping-cart"
+                    width="24"
+                    height="24"
+                    className="text-white transition-colors duration-300"
+                  />
+                  {cartItems.length > 0 && (
+                    <motion.span
+                      className="
+            absolute
+            -top-2
+            -right-2
+            bg-gradient-to-r
+            from-customPink-500
+            to-customPink-600
+            text-white
+            text-xs
+            rounded-full
+            h-5
+            w-5
+            flex
+            items-center
+            justify-center
+          "
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    >
+                      {cartItems.reduce((sum, it) => sum + (it.quantity || 1), 0)}
+                    </motion.span>
+                  )}
+                </motion.button>
+              </motion.div>
+            </div>
           </div>
         </div>
       </motion.header>
