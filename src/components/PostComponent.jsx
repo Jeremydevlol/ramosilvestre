@@ -11,7 +11,6 @@ import { useRef, useEffect, useState, memo } from "react"
 import { translations } from "../data/constants"
 import useInView from "../hooks/useInView"
 import { handleAddToCart, handleAddToFavorite } from "../utils/utils"
-import { FaInstagram } from "react-icons/fa"
 
 const buttonVariants = {
   hover: {
@@ -285,12 +284,11 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
 
               <motion.button
                 onClick={openInstagram}
-                className="flex items-center gap-1 text-base text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)] hover:text-[#E8B4B8] transition-colors"
+                className="text-base text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)] hover:text-[#E8B4B8] transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FaInstagram className="text-lg" />
-                <span>@{post.author}</span>
+                @{post.author}
               </motion.button>
             </motion.div>
 
