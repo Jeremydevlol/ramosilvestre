@@ -1,128 +1,68 @@
+// Improve the utility functions to prevent any black screen issues
+
+// Add this function to prevent touch event issues
+export const preventDefaultTouchMove = (event) => {
+  // Only prevent default for vertical swipes
+  const touchStartY = event.touches[0].clientY
+
+  const handleTouchMove = (moveEvent) => {
+    const touchY = moveEvent.touches[0].clientY
+    const deltaY = touchY - touchStartY
+
+    // If it's a significant vertical movement
+    if (Math.abs(deltaY) > 10) {
+      moveEvent.preventDefault()
+    }
+  }
+
+  document.addEventListener("touchmove", handleTouchMove, { passive: false })
+
+  const cleanup = () => {
+    document.removeEventListener("touchmove", handleTouchMove)
+    document.removeEventListener("touchend", cleanup)
+    document.removeEventListener("touchcancel", cleanup)
+  }
+
+  document.addEventListener("touchend", cleanup, { once: true })
+  document.addEventListener("touchcancel", cleanup, { once: true })
+}
+
+// Improve the cart and favorite functions to prevent UI glitches
 export const handleAddToCart = (item, buttonRef, addToCart) => {
   if (buttonRef.current) {
-    const startRect = buttonRef.current.getBoundingClientRect()
+    // Add animation class
+    buttonRef.current.classList.add("animate-pulse")
 
-    const floatingIcon = document.createElement("div")
-    floatingIcon.className = "floating-icon"
-    floatingIcon.style.position = "fixed"
-    floatingIcon.style.left = `${startRect.left + startRect.width / 2 - 15}px`
-    floatingIcon.style.top = `${startRect.top + startRect.height / 2 - 15}px`
-    floatingIcon.style.zIndex = 1000
-    floatingIcon.style.width = "30px"
-    floatingIcon.style.height = "30px"
-    floatingIcon.style.backgroundImage = `url("${encodeURI(item.image)}")`
-    floatingIcon.style.backgroundSize = "cover"
-    floatingIcon.style.backgroundPosition = "center"
-    floatingIcon.style.borderRadius = "5px"
-    floatingIcon.style.display = "flex"
-    floatingIcon.style.justifyContent = "center"
-    floatingIcon.style.alignItems = "center"
-
-    const buttonIcon = buttonRef.current.querySelector("svg").cloneNode(true)
-    buttonIcon.style.width = "20px"
-    buttonIcon.style.height = "20px"
-    buttonIcon.style.color = "white"
-    floatingIcon.appendChild(buttonIcon)
-
-    document.body.appendChild(floatingIcon)
-    floatingIcon.animate(
-      [
-        { transform: "translateY(0)", opacity: 0.9 },
-        { transform: "translateY(-1000px)", opacity: 0.2 },
-      ],
-      {
-        duration: 1500,
-        easing: "ease-in-out",
-      },
-    ).onfinish = () => {
-      document.body.removeChild(floatingIcon)
-      addToCart(item)
-    }
+    // Remove animation class after animation completes
+    setTimeout(() => {
+      if (buttonRef.current) {
+        buttonRef.current.classList.remove("animate-pulse")
+      }
+    }, 500)
   }
+
+  // Add item to cart with a small delay to allow animation to complete
+  setTimeout(() => {
+    addToCart(item)
+  }, 100)
 }
 
-export const handleAddToFavorite = (item, buttonRef, toogleFavorite) => {
-  if (buttonRef.current) {
-    const startRect = buttonRef.current.getBoundingClientRect()
+export const handleAddToFavorite = (item, favoriteRef, toggleFavorite) => {
+  if (favoriteRef.current) {
+    // Add animation class
+    favoriteRef.current.classList.add("animate-pulse")
 
-    const floatingIcon = document.createElement("div")
-    floatingIcon.className = "floating-icon"
-    floatingIcon.style.position = "fixed"
-    floatingIcon.style.left = `${startRect.left + startRect.width / 2 - 15}px`
-    floatingIcon.style.top = `${startRect.top + startRect.height / 2 - 15}px`
-    floatingIcon.style.zIndex = 1000
-    floatingIcon.style.width = "30px"
-    floatingIcon.style.height = "30px"
-    floatingIcon.style.backgroundImage = `url("${encodeURI(item.image)}")`
-    floatingIcon.style.backgroundSize = "cover"
-    floatingIcon.style.backgroundPosition = "center"
-    floatingIcon.style.borderRadius = "5px"
-    floatingIcon.style.display = "flex"
-    floatingIcon.style.justifyContent = "center"
-    floatingIcon.style.alignItems = "center"
-
-    const buttonIcon = buttonRef.current.querySelector("svg").cloneNode(true)
-    buttonIcon.style.width = "20px"
-    buttonIcon.style.height = "20px"
-    buttonIcon.style.color = "white"
-    floatingIcon.appendChild(buttonIcon)
-
-    document.body.appendChild(floatingIcon)
-    floatingIcon.animate(
-      [
-        { transform: "translateY(0)", opacity: 0.9 },
-        { transform: "translateY(-1000px)", opacity: 0.2 },
-      ],
-      {
-        duration: 800,
-        easing: "ease-in-out",
-      },
-    ).onfinish = () => {
-      document.body.removeChild(floatingIcon)
-      //toogleFavorite(item.title);
-      setTimeout(() => {
-        window.open(
-          "https://www.instagram.com/atv4ruedasgalipan?igsh=MTI4czExaGZyeGp3Nw==",
-          "_blank",
-          "noopener,noreferrer",
-        )
-      })
-    }
+    // Remove animation class after animation completes
+    setTimeout(() => {
+      if (favoriteRef.current) {
+        favoriteRef.current.classList.remove("animate-pulse")
+      }
+    }, 500)
   }
-}
 
-const handleAddToCart2 = (item, index, buttonRefs, addToCart) => {
-  const buttonRef = buttonRefs.current[index]
-  if (buttonRef) {
-    const startRect = buttonRef.getBoundingClientRect()
-
-    const floatingIcon = document.createElement("div")
-    floatingIcon.className = "floating-icon"
-    floatingIcon.style.position = "fixed"
-    floatingIcon.style.left = `${startRect.left + startRect.width / 2 - 10}px`
-    floatingIcon.style.top = `${startRect.top + startRect.height / 2 - 10}px`
-    floatingIcon.style.zIndex = 1000
-
-    const buttonIcon = buttonRef.querySelector("svg").cloneNode(true)
-    buttonIcon.style.width = "20px"
-    buttonIcon.style.height = "20px"
-    buttonIcon.style.color = "white"
-    floatingIcon.appendChild(buttonIcon)
-
-    document.body.appendChild(floatingIcon)
-    floatingIcon.animate(
-      [
-        { transform: "translateY(0)", opacity: 1 },
-        { transform: "translateY(-1000px)", opacity: 0.2 },
-      ],
-      {
-        duration: 800,
-        easing: "ease-in-out",
-      },
-    ).onfinish = () => {
-      document.body.removeChild(floatingIcon)
-      addToCart(item)
-    }
-  }
+  // Toggle favorite with a small delay to allow animation to complete
+  setTimeout(() => {
+    toggleFavorite(item.title)
+  }, 100)
 }
 
