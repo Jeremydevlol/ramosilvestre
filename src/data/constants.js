@@ -165,7 +165,7 @@ export const SECTIONS = [
   },
 ]
 
-// Add translations for workshops
+// Add translations for workshops and Chinese language
 export const translations = {
   es: {
     title: "MENÚ",
@@ -173,8 +173,11 @@ export const translations = {
     seeLess: "Ver Menos",
     selectLanguage: "Seleccionar idioma",
     close: "Cerrar",
-    list: "List",
+    list: "Lista",
     workshops: "Talleres",
+    collection: "Colección",
+    language: "Español",
+    languageCode: "ES",
   },
   en: {
     title: "MENU",
@@ -184,6 +187,28 @@ export const translations = {
     close: "Close",
     list: "List",
     workshops: "Workshops",
+    collection: "Collection",
+    language: "English",
+    languageCode: "EN",
   },
+  zh: {
+    title: "菜单",
+    seeMore: "查看更多",
+    seeLess: "收起",
+    selectLanguage: "选择语言",
+    close: "关闭",
+    list: "列表",
+    workshops: "工作坊",
+    collection: "收藏",
+    language: "中文",
+    languageCode: "中文",
+  },
+}
+
+// Flags for language selector
+export const languageFlags = {
+  es: "twemoji:flag-spain",
+  en: "twemoji:flag-united-kingdom",
+  zh: "twemoji:flag-china",
 }
 
