@@ -17,7 +17,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-import { SECTIONS, LogoImage, translations, languageFlags } from "../data/constants"
+import { getSections, LogoImage, translations, languageFlags } from "../data/constants"
 import PostComponent from "./PostComponent"
 import useStore from "../store/store"
 
@@ -55,7 +55,8 @@ const TikTokFoodUI = () => {
   const verticalSwipersRef = useRef([])
   const sectionsSwiperRef = useRef(null)
 
-  const currentSections = SECTIONS
+  // Obtener secciones localizadas según el idioma actual
+  const currentSections = getSections(language)
 
   // Expandir/cerrar un Post
   const handleExpand = (postId) => {
