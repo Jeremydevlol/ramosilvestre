@@ -1,22 +1,42 @@
-import { useState, useEffect } from "react";
+"use client"
+
+import { useState, useEffect } from "react"
 
 const useInView = (ref, options = {}) => {
-  const [isInView, setIsInView] = useState(false);
+  const [isInView, setIsInView] = useState(false)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInView(entry.isIntersecting),
-      options
-    );
+    if (!ref.current) return
 
-    if (ref.current) observer.observe(ref.current);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Use a small delay to prevent flickering during fast scrolling
+        const timer = setTimeout(() => {
+          setIsInView(entry.isIntersecting)
+        }, 50)
+
+        return () => clearTimeout(timer)
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: options.threshold || 0.5,
+        ...options,
+      },
+    )
+
+    const currentRef = ref.current
+    observer.observe(currentRef)
 
     return () => {
-      if (ref.current) observer.unobserve(ref.current);
-    };
-  }, [ref, options]);
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [ref, options.threshold])
 
-  return isInView;
-};
+  return isInView
+}
 
-export default useInView;
+export default useInView
+
