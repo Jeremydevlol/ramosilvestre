@@ -232,19 +232,14 @@ const RestaurantLayout = () => {
                     onClick={() => handleLanguageChange(langCode)}
                     className={`flex items-center gap-4 w-full p-4 rounded-xl transition-colors ${
                       language === langCode
-                        ? "bg-gradient-to-r from-customPink-500 to-customPink-600 text-white"
-                        : "bg-black/50 text-white/80 hover:bg-black/70 border border-white/10"
+                        ? "bg-gradient-to-r from-customPink-500/80 to-customPink-600/80 text-white"
+                        : "bg-black/30 text-white/80 hover:bg-black/40 border border-white/10"
                     }`}
                     whileHover={{ scale: 1.02, boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white/10">
-                      <Icon
-                        icon={languageFlags[langCode]}
-                        width="28"
-                        height="28"
-                        className="rounded-md overflow-hidden"
-                      />
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center backdrop-blur-sm bg-white/10">
+                      <Icon icon={languageFlags[langCode]} width="24" height="24" />
                     </div>
                     <div className="flex flex-col items-start">
                       <span className="font-medium">{translations[langCode].language}</span>
@@ -366,22 +361,20 @@ const RestaurantLayout = () => {
         </div>
       </motion.header>
 
-      {/* Language Selector Button - Positioned below header */}
+      {/* Language Selector Button - Positioned at left side below header */}
       <motion.div
-        className="sticky top-[70px] z-40 flex justify-center mb-4"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="sticky top-[70px] left-0 z-40 px-4 mb-4"
+        initial={{ opacity: 0, x: -10 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       >
         <motion.button
           onClick={() => setShowLanguageModal(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-customPink-500/80 to-customPink-600/80 backdrop-blur-md shadow-lg border border-white/20"
+          className="flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md shadow-lg border border-white/10 bg-white/5"
           whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.2)" }}
           whileTap={{ scale: 0.95 }}
         >
           <Icon icon={languageFlags[language]} width="20" height="20" className="rounded-sm" />
-          <span className="font-medium text-white">{translations[language]?.language}</span>
-          <Icon icon="mdi:chevron-down" className="text-white ml-1" width="16" height="16" />
         </motion.button>
       </motion.div>
 
