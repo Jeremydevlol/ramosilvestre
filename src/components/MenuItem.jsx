@@ -146,7 +146,7 @@ const MenuItem = ({ post, postIndex }) => {
                 transition={{ delay: 0.4 }}
               >
                 <MdOutlineRestaurantMenu className="text-[#E8B4B8]" />
-                <span className="text-sm text-[#E8B4B8] font-medium">Sugerencia del chef</span>
+                <span className="text-sm text-[#E8B4B8] font-medium">{translations[language]?.chefSuggestion}</span>
               </motion.div>
             )}
 
@@ -163,7 +163,7 @@ const MenuItem = ({ post, postIndex }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {translations[language]?.seeMore || "Ver Más"}
+                {translations[language]?.seeMore}
               </motion.span>
             </motion.p>
           </div>
