@@ -53,8 +53,23 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
   useEffect(() => {
     if (videoRef.current) {
       if (shouldPlay) {
-        videoRef.current.play().catch((err) => console.log("Play error:", err))
-        setIsPlaying(true)
+        const playPromise = videoRef.current.play()
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true)
+            })
+            .catch((err) => {
+              console.log("Play error:", err)
+              // Intentar reproducir nuevamente después de un breve retraso
+              setTimeout(() => {
+                if (videoRef.current) {
+                  videoRef.current.play().catch((e) => console.log("Retry error:", e))
+                }
+              }, 300)
+            })
+        }
       } else {
         videoRef.current.pause()
         setIsPlaying(false)
@@ -127,7 +142,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
     >
       {/* CONTENEDOR VIDEO/IMAGEN */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0"
         ref={containerRef}
         initial={{ scale: 1.05, opacity: 0.8 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -136,10 +151,12 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
         {/* Imagen de fondo (fallback) */}
         <motion.img
           src={post.image}
+          alt={post.title}
           className="absolute w-full h-full object-cover pointer-events-none"
           initial={{ opacity: 1 }}
           animate={{ opacity: isPlaying ? 0 : 1 }}
           transition={{ duration: 0.8 }}
+          loading="eager"
         />
         {/* Video si está en vista */}
         {isInView && (
@@ -159,7 +176,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
         )}
 
         {/* Gradient overlay for better text visibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
       </motion.div>
 
       {/* BOTONES DERECHA (Favorito, Añadir, etc.) */}
