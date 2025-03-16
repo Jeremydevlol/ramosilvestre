@@ -204,6 +204,7 @@ const TikTokFoodUI = () => {
               spaceBetween={0}
               nested={true}
               onSwiper={(verticalSwiper) => handleVerticalSwiperInit(verticalSwiper, hIndex)}
+              onTouchStart={() => setIsSwiping(true)}
               onTouchEnd={() => setIsSwiping(false)}
               className="w-full h-full"
               mousewheel={true}
@@ -211,13 +212,13 @@ const TikTokFoodUI = () => {
                 enabled: true,
               }}
               allowTouchMove={true}
+              touchStartPreventDefault={false}
+              simulateTouch={true}
+              resistance={false}
+              resistanceRatio={0}
             >
               {section.posts.map((post) => (
-                <SwiperSlide
-                  key={post.id}
-                  className="m-0 p-0 w-full h-full overflow-y-auto"
-                  style={{ backgroundColor: "#000" }}
-                >
+                <SwiperSlide key={post.id} className="m-0 p-0 w-full h-full" style={{ backgroundColor: "#000" }}>
                   <PostComponent
                     post={post}
                     expandedPost={expandedPost}
