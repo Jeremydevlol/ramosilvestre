@@ -260,7 +260,7 @@ const RestaurantLayout = () => {
           </div>
         </div>
       </motion.header>
-      <main className="container mx-auto px-4 pt-16 pb-32 overflow-y-auto" style={{ maxHeight: "calc(100vh - 120px)" }}>
+      <main className="container mx-auto px-4 pt-20 pb-32 overflow-y-auto" style={{ maxHeight: "calc(100vh - 120px)" }}>
         <motion.div className="space-y-10" variants={sectionVariants} initial="hidden" animate="visible">
           {SECTIONS.map((section, index) => (
             <motion.div
@@ -269,10 +269,7 @@ const RestaurantLayout = () => {
               ref={(el) => handleSectionRef(el, index)}
               className="scroll-mt-24"
             >
-              <motion.h2
-                className="text-xl font-bold text-white mb-4 sticky top-0 bg-black/80 backdrop-blur-sm py-2 z-10"
-                variants={sectionTitleVariants}
-              >
+              <motion.h2 className="text-2xl font-bold text-white mb-6 py-2 z-10" variants={sectionTitleVariants}>
                 {section.id === "workshops" ? "Talleres" : "Colección"}
               </motion.h2>
               <div className="space-y-6">
