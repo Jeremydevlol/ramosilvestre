@@ -2,7 +2,7 @@
   "name": "florist-ui",
   "version": "1.0.0",
   "description": "Elegant florist shop UI with product showcases and workshops",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -11,38 +11,24 @@
   },
   "dependencies": {
     "@iconify/react": "^4.1.1",
-    "@supabase/supabase-js": "^2.46.1",
-    "axios": "^1.7.7",
-    "framer-motion": "^11.11.11",
-    "gsap": "^3.12.5",
-    "jspdf": "^2.5.2",
-    "qrcode.react": "^4.1.0",
-    "react": "^18.3.1",
-    "react-confetti": "^6.1.0",
-    "react-dom": "^18.3.1",
-    "react-helmet": "^6.1.0",
-    "react-icons": "^5.3.0",
-    "react-intersection-observer": "^9.15.1",
-    "react-router-dom": "^7.1.3",
-    "react-scripts": "^5.0.1",
-    "styled-components": "^6.1.14",
-    "swiper": "^11.2.1",
-    "zustand": "^5.0.3"
+    "framer-motion": "^10.16.4",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-router-dom": "^6.16.0",
+    "swiper": "^10.3.1",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@iconify/tailwind": "^1.1.3",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.15.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14"
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "react-scripts": "5.0.1",
+    "tailwindcss": "^3.3.3"
   },
   "browserslist": {
     "production": [">0.2%", "not dead", "not op_mini all"],
     "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
-  },
-  "keywords": ["florist", "react", "tailwind", "e-commerce", "workshops"],
-  "author": "",
-  "license": "ISC"
+  }
 }
 
