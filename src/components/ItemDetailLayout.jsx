@@ -16,13 +16,13 @@ const ItemDetailLayout = () => {
 
   // Para volver a la vista anterior
   const handleBack = () => {
-    navigate("/cart/atv4ruedasgalipan")
+    navigate("/cart/ramosilvestre")
   }
 
   // Añadir al carrito y navegar a /cart
   const handleAddToCartAndGoCart = () => {
     addToCart(selectedItem)
-    navigate("/cart/atv4ruedasgalipan")
+    navigate("/cart/ramosilvestre")
   }
 
   // Asegura que al montar el componente, se scrollee al top
