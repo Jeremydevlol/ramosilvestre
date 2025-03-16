@@ -6,8 +6,9 @@
  * - Si dejas una sección a la mitad y vuelves luego, se retoma desde ahí
  ***********************/
 import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { FiShoppingCart } from "react-icons/fi"
+import { Icon } from "@iconify/react"
 
 // ====== SWIPER IMPORTS (versión 10+)
 import { Swiper, SwiperSlide } from "swiper/react"
@@ -16,7 +17,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-import { SECTIONS, LogoImage } from "../data/constants"
+import { SECTIONS, LogoImage, translations, languageFlags } from "../data/constants"
 import PostComponent from "./PostComponent"
 import useStore from "../store/store"
 
@@ -90,6 +91,22 @@ const TikTokFoodUI = () => {
     tap: { scale: 0.95 },
   }
 
+  const modalVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 30 },
+    },
+    exit: {
+      opacity: 0,
+      y: 50,
+      scale: 0.95,
+      transition: { duration: 0.2 },
+    },
+  }
+
   // Uso de useEffect si hay un :id en la URL
   useEffect(() => {
     if (id) {
@@ -116,15 +133,23 @@ const TikTokFoodUI = () => {
       <motion.header
         key={activeSectionIndex}
         className="fixed top-0 left-0 right-0 z-50 
-     backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
-     py-4 px-4"
+    backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
+    py-4 px-4"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="flex items-center justify-between h-full relative">
-          {/* Left - Empty space for balance */}
-          <div className="w-9 h-9 opacity-0"></div>
+          {/* Left - Language Button */}
+          <motion.button
+            onClick={() => setShowLanguageModal(true)}
+            className="w-9 h-9 flex items-center justify-center bg-black/30 rounded-full"
+            whileHover={buttonVariants.hover}
+            whileTap={buttonVariants.tap}
+            aria-label="Cambiar idioma"
+          >
+            <Icon icon={languageFlags[language]} width="20" height="20" />
+          </motion.button>
 
           {/* Center - Logo */}
           <motion.div
@@ -152,8 +177,8 @@ const TikTokFoodUI = () => {
             {cartItems.length > 0 && (
               <span
                 className="absolute -top-1 -right-1 bg-customPink-500 
-                 text-white text-xs rounded-full h-4 w-4 
-                 flex items-center justify-center"
+                text-white text-xs rounded-full h-4 w-4 
+                flex items-center justify-center"
               >
                 {cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0)}
               </span>
@@ -161,6 +186,71 @@ const TikTokFoodUI = () => {
           </motion.button>
         </div>
       </motion.header>
+
+      {/* Language Modal */}
+      <AnimatePresence>
+        {showLanguageModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowLanguageModal(false)}
+          >
+            <motion.div
+              className="bg-[#001a1a] rounded-2xl p-6 w-[85%] max-w-sm"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
+                {translations[language]?.selectLanguage || "Seleccionar idioma"}
+              </h2>
+
+              <div className="space-y-4">
+                {Object.keys(translations).map((langCode) => (
+                  <motion.button
+                    key={langCode}
+                    onClick={() => handleLanguageChange(langCode)}
+                    className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${
+                      language === langCode
+                        ? "bg-customPink-500 text-white"
+                        : "bg-black/30 text-white/80 hover:bg-black/50"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Icon
+                      icon={languageFlags[langCode]}
+                      width="28"
+                      height="28"
+                      className="rounded-md overflow-hidden"
+                    />
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium">{translations[langCode].language}</span>
+                      <span className="text-xs opacity-70">{translations[langCode].languageCode}</span>
+                    </div>
+                    {language === langCode && (
+                      <Icon icon="ph:check-circle-fill" className="ml-auto text-white" width="20" height="20" />
+                    )}
+                  </motion.button>
+                ))}
+              </div>
+
+              <motion.button
+                onClick={() => setShowLanguageModal(false)}
+                className="mt-6 w-full bg-black/50 hover:bg-black/70 text-white py-3 rounded-xl transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {translations[language]?.close || "Cerrar"}
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* SWIPER HORIZONTAL (SECCIONES) */}
       <Swiper
