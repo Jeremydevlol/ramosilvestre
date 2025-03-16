@@ -4,7 +4,7 @@ import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useStore from "../store/store"
 import { translations } from "../data/constants"
-import { FaHeart, FaPlus, FaInstagram } from "react-icons/fa"
+import { FaHeart, FaPlus } from "react-icons/fa"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { handleAddToCart, handleAddToFavorite } from "../utils/utils"
@@ -125,15 +125,14 @@ const MenuItem = ({ post, postIndex }) => {
 
                 <motion.button
                   onClick={(e) => openInstagram(e)}
-                  className="flex items-center gap-1 text-sm text-white/70 hover:text-[#E8B4B8] transition-colors"
+                  className="text-sm text-white/70 hover:text-[#E8B4B8] transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <FaInstagram />
-                  <span>@{post.author}</span>
+                  @{post.author}
                 </motion.button>
               </div>
             </div>
