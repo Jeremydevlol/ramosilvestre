@@ -3,26 +3,74 @@
 /* Fix for mobile viewport height issues */
 :root {
   --vh: 1vh;
+  --navbar-height: 65px;
+  --navbar-height-mobile: 65px;
+}
+
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Asegura que el contenido llene toda la pantalla */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Ensure Swiper slides take full height */
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Prevent text selection during swipe */
+.swiper-slide {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Enhance text readability */
+.drop-shadow-text {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 1);
 }
 
 @supports (-webkit-touch-callout: none) {
   .h-screen {
     height: -webkit-fill-available;
   }
+
+  .swiper,
+  .swiper-wrapper,
+  .swiper-slide {
+    height: -webkit-fill-available !important;
+  }
 }
 
 /* Ensure content fits on small screens */
 @media screen and (max-height: 700px) {
   .text-3xl {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .text-xl {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
   .text-lg {
-    font-size: 1rem;
+    font-size: 1.125rem;
   }
 
   .space-y-2 > * + * {
@@ -32,6 +80,24 @@
   .gap-4 {
     gap: 0.75rem;
   }
+}
+
+/* Fix for touch events */
+.swiper-container {
+  touch-action: pan-y;
+}
+
+/* Ensure pagination bullets are visible */
+.swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.7);
+  width: 8px;
+  height: 8px;
+}
+
+.swiper-pagination-bullet-active {
+  background: #e8b4b8;
+  width: 10px;
+  height: 10px;
 }
 
 /* Add this to your existing CSS */
