@@ -22,7 +22,15 @@ const buttonVariants = {
 
 const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection }) => {
   const navigate = useNavigate()
-  const { cartItems, addToCart, toggleFavorite, favorites, language } = useStore()
+
+  // Usar valores por defecto en caso de que el store no esté inicializado
+  const store = useStore()
+  const cartItems = store?.cartItems || []
+  const favorites = store?.favorites || []
+  const language = store?.language || "es"
+  const addToCart = store?.addToCart || (() => {})
+  const toggleFavorite = store?.toggleFavorite || (() => {})
+
   const [isPlaying, setIsPlaying] = useState(false)
 
   // Variantes para animar la aparición del post
@@ -130,6 +138,11 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
     handleAddToCart(postWithSection, buttonRef, addToCart)
   }
 
+  // Verificar si el item está en el carrito
+  const isInCart = cartItems.some((item) => item.id === post.id)
+  // Verificar si el item está en favoritos
+  const isFavorite = favorites.includes(post.title)
+
   return (
     <motion.div
       key={`${activeSection}-${post.id}`}
@@ -210,10 +223,10 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
           transition={{ delay: 0.7, duration: 0.4 }}
         >
           <ActionButton
-            active={favorites.includes(post.title)}
+            active={isFavorite}
             onClick={() => handleAddToFavorite(post, favoriteRef, toggleFavorite)}
-            Icon={favorites.includes(post.title) ? AiFillHeart : AiOutlineHeart}
-            label={favorites.includes(post.title) ? "Eliminar favorito" : "Agregar a favoritos"}
+            Icon={isFavorite ? AiFillHeart : AiOutlineHeart}
+            label={isFavorite ? "Eliminar favorito" : "Agregar a favoritos"}
             buttonRef={favoriteRef}
           />
         </motion.div>
@@ -225,10 +238,10 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
           transition={{ delay: 0.8, duration: 0.4 }}
         >
           <ActionButton
-            active={cartItems.some((item) => item.id === post.id)}
+            active={isInCart}
             onClick={handleAddToCartWithSection}
-            Icon={cartItems.some((item) => item.id === post.id) ? AiFillPlusCircle : AiOutlinePlusCircle}
-            label={cartItems.some((item) => item.id === post.id) ? "Eliminar de pedidos" : "Agregar a pedidos"}
+            Icon={isInCart ? AiFillPlusCircle : AiOutlinePlusCircle}
+            label={isInCart ? "Eliminar de pedidos" : "Agregar a pedidos"}
             buttonRef={buttonRef}
           />
         </motion.div>
@@ -284,7 +297,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    {translations[language].seeMore}
+                    {translations[language]?.seeMore || "Ver más"}
                   </motion.span>
                 )}
               </p>
@@ -300,7 +313,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
                     exit={{ opacity: 0, y: 10 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    {translations[language].seeLess}
+                    {translations[language]?.seeLess || "Ver menos"}
                   </motion.p>
                 )}
               </AnimatePresence>
