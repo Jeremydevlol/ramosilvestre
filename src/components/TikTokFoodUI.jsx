@@ -16,7 +16,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 
-import { SECTIONS } from "../data/constants"
+import { SECTIONS, LogoImage } from "../data/constants"
 import PostComponent from "./PostComponent"
 import useStore from "../store/store"
 
@@ -145,7 +145,7 @@ const TikTokFoodUI = () => {
           {/* Left - Empty space for balance */}
           <div className="w-9 h-9 opacity-0"></div>
 
-          {/* Center - Logo/Title */}
+          {/* Center - Logo */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -155,9 +155,8 @@ const TikTokFoodUI = () => {
               stiffness: 300,
               damping: 30,
             }}
-            className="text-2xl font-bold tracking-wider"
           >
-            RAMO SILVESTRE
+            <LogoImage className="h-8 w-auto" />
           </motion.div>
 
           {/* Right - Cart button */}
