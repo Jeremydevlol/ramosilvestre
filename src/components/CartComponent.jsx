@@ -75,7 +75,7 @@ const CartComponent = () => {
   // Handle "Ver Más" button click
   const handleViewMore = (item) => {
     setSelectedItem(item)
-    navigate(`/details/ramosilvestre`)
+    navigate(`/details/atv4ruedasgalipan`)
   }
 
   // Handle remove item from cart with animation
@@ -278,4 +278,3 @@ const CartComponent = () => {
 }
 
 export default CartComponent
-
