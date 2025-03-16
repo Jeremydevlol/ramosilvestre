@@ -1,7 +1,20 @@
 "use client"
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 const ActionButton = ({ active, onClick, Icon, label, buttonRef }) => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerHeight < 700)
+    }
+
+    checkScreenSize()
+    window.addEventListener("resize", checkScreenSize)
+    return () => window.removeEventListener("resize", checkScreenSize)
+  }, [])
+
   const buttonVariants = {
     initial: {
       scale: 0.9,
@@ -42,9 +55,9 @@ const ActionButton = ({ active, onClick, Icon, label, buttonRef }) => {
   return (
     <motion.button
       ref={buttonRef}
-      className="w-11 h-11 backdrop-blur-sm bg-black/50 rounded-full
-                hover:bg-black/70 active:bg-black/80 flex items-center justify-center font-playfair
-                shadow-lg shadow-black/20 border border-white/10"
+      className={`${isSmallScreen ? "w-9 h-9" : "w-11 h-11"} backdrop-blur-sm bg-black/50 rounded-full
+               hover:bg-black/70 active:bg-black/80 flex items-center justify-center font-playfair
+               shadow-lg shadow-black/20 border border-white/10`}
       onClick={onClick}
       variants={buttonVariants}
       initial="initial"
@@ -55,7 +68,7 @@ const ActionButton = ({ active, onClick, Icon, label, buttonRef }) => {
     >
       <motion.div variants={iconVariants} initial="initial" animate={active ? "active" : "initial"}>
         {/* Icon in pink */}
-        <Icon className="text-[#E8B4B8] w-6 h-6" />
+        <Icon className={`text-[#E8B4B8] ${isSmallScreen ? "w-5 h-5" : "w-6 h-6"}`} />
       </motion.div>
     </motion.button>
   )
