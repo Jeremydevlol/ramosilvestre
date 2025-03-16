@@ -10,22 +10,27 @@ import { useInView } from "framer-motion"
 import { handleAddToCart, handleAddToFavorite } from "../utils/utils"
 import { MdOutlineRestaurantMenu } from "react-icons/md"
 
-const globalPlayingVideoRef = null
-
 const MenuItem = ({ post, postIndex }) => {
   const navigate = useNavigate()
   const videoRef = useRef(null)
   const containerRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const isInView = useInView(containerRef, { threshold: 0.3, once: false })
-  const { language, favorites, toggleFavorite, addToCart, setSelectedItem } = useStore()
+
+  // Usar valores por defecto en caso de que el store no esté inicializado
+  const store = useStore()
+  const language = store?.language || "es"
+  const favorites = store?.favorites || []
+  const addToCart = store?.addToCart || (() => {})
+  const toggleFavorite = store?.toggleFavorite || (() => {})
+  const setSelectedItem = store?.setSelectedItem || (() => {})
 
   const buttonRefs = useRef([])
   const favoritesRefs = useRef([])
 
   const handleContainerClick = () => {
     setSelectedItem(post)
-    navigate("/details/atv4ruedasgalipan")
+    navigate(`/details/ramosilvestre`)
   }
 
   const cardVariants = {
@@ -138,7 +143,7 @@ const MenuItem = ({ post, postIndex }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {translations[language].seeMore}
+                {translations[language]?.seeMore || "Ver Más"}
               </motion.span>
             </motion.p>
           </div>
