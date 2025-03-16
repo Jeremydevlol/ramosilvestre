@@ -216,6 +216,9 @@ const TikTokFoodUI = () => {
               simulateTouch={true}
               resistance={false}
               resistanceRatio={0}
+              watchSlidesProgress={true}
+              observer={true}
+              observeParents={true}
             >
               {section.posts.map((post) => (
                 <SwiperSlide key={post.id} className="m-0 p-0 w-full h-full" style={{ backgroundColor: "#000" }}>
