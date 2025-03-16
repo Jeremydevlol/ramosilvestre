@@ -11,7 +11,7 @@ const SplashVideo = () => {
   useEffect(() => {
     // Redirige tras 3 segundos
     const timer = setTimeout(() => {
-      navigate("/slider/atv4ruedasgalipan")
+      navigate("/slider/ramosilvestre")
     }, 3000)
 
     return () => clearTimeout(timer)
@@ -89,16 +89,16 @@ const SplashVideo = () => {
       animate="animate"
       exit="exit"
       className="
-        h-screen
-        overflow-hidden
-        bg-gradient-to-b
-        from-customPink-300
-        to-black
-        flex
-        items-center
-        justify-center
-        font-playfair
-      "
+       h-screen
+       overflow-hidden
+       bg-gradient-to-b
+       from-customPink-300
+       to-black
+       flex
+       items-center
+       justify-center
+       font-playfair
+     "
     >
       <div className="relative flex items-center justify-center">
         {/* Glow effect behind the logo */}
