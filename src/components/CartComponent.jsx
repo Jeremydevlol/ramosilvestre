@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import { motion } from "framer-motion"
 import { FaHeart, FaPlus, FaTrash } from "react-icons/fa"
-import { SECTIONS, translations } from "../data/constants"
+import { getSections, translations } from "../data/constants"
 
 const CartComponent = () => {
   const { cartItems, updateQuantity, removeFromCart, favorites, toggleFavorite, setSelectedItem, language } = useStore()
@@ -21,7 +21,8 @@ const CartComponent = () => {
       if (sectionIds.length === 1) {
         // If all items are from the same section, use that section's name
         const sectionId = sectionIds[0]
-        const section = SECTIONS.find((s) => s.id === sectionId)
+        const sections = getSections(language)
+        const section = sections.find((s) => s.id === sectionId)
 
         if (section) {
           // Map section IDs to user-friendly names
