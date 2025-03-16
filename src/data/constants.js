@@ -82,7 +82,7 @@ const DATA = {
       id: 2,
       title: "Ramo Clásico de Rosas Rojas",
       author: "Ramo Silvestre",
-      price: "30,00€ - 120,00���",
+      price: "30,00€ - 120,00€",
       description: "Elegante composición de rosas rojas de tallo largo con follaje selecto y acabado premium.",
       longDescription:
         "La expresión perfecta del amor y la pasión en un arreglo clásico y atemporal. Nuestras rosas rojas de tallo largo son seleccionadas por su intenso color, frescura y duración. Presentadas con follaje complementario y un acabado de lujo que realza su belleza natural.",
