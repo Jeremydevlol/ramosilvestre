@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom"
 import { Icon } from "@iconify/react"
 import { motion } from "framer-motion"
 import { FaHeart, FaPlus, FaTrash } from "react-icons/fa"
-import { SECTIONS } from "../data/constants"
+import { SECTIONS, translations } from "../data/constants"
 
 const CartComponent = () => {
-  const { cartItems, updateQuantity, removeFromCart, favorites, toggleFavorite, setSelectedItem } = useStore()
+  const { cartItems, updateQuantity, removeFromCart, favorites, toggleFavorite, setSelectedItem, language } = useStore()
   const navigate = useNavigate()
   const [currentSection, setCurrentSection] = useState("Colección")
 
@@ -26,22 +26,22 @@ const CartComponent = () => {
         if (section) {
           // Map section IDs to user-friendly names
           const sectionNames = {
-            florist: "Flores",
-            iconoir: "Rosas",
-            mingcute: "Tulipanes",
-            workshops: "Talleres",
+            florist: translations[language]?.collection || "Colección",
+            iconoir: translations[language]?.collection || "Colección",
+            mingcute: translations[language]?.collection || "Colección",
+            workshops: translations[language]?.workshops || "Talleres",
           }
 
-          setCurrentSection(sectionNames[sectionId] || "Colección")
+          setCurrentSection(sectionNames[sectionId] || translations[language]?.collection || "Colección")
         }
       } else if (sectionIds.length > 1) {
         // If items are from multiple sections
-        setCurrentSection("Colección")
+        setCurrentSection(translations[language]?.collection || "Colección")
       }
     } else {
-      setCurrentSection("Colección")
+      setCurrentSection(translations[language]?.collection || "Colección")
     }
-  }, [cartItems])
+  }, [cartItems, language])
 
   const totalBeforeDiscount = cartItems.reduce((sum, item) => {
     const price = Number.parseFloat(item.price.replace("€", "").split("-")[0].trim())
@@ -75,7 +75,7 @@ const CartComponent = () => {
   // Handle "Ver Más" button click
   const handleViewMore = (item) => {
     setSelectedItem(item)
-    navigate(`/details/atv4ruedasgalipan`)
+    navigate(`/details/ramosilvestre`)
   }
 
   // Handle remove item from cart with animation
@@ -142,14 +142,14 @@ const CartComponent = () => {
             className="flex flex-col items-center justify-center h-full gap-6 p-4"
           >
             <Icon icon="pepicons-pencil:cart" className="w-24 h-24 text-white/20" />
-            <p className="text-white/50 text-lg text-center">Tu carrito está vacío</p>
+            <p className="text-white/50 text-lg text-center">{translations[language]?.emptyCart}</p>
             <motion.button
               onClick={() => navigate(-1)}
               className="bg-[#E8B4B8] hover:bg-[#F2D5D8] text-white py-3 px-6 rounded-xl transition-colors font-semibold"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Continuar comprando
+              {translations[language]?.continueShopping}
             </motion.button>
           </motion.div>
         ) : (
@@ -184,7 +184,7 @@ const CartComponent = () => {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleViewMore(item)}
                       >
-                        Ver Más
+                        {translations[language]?.viewMore}
                       </motion.button>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ const CartComponent = () => {
                       className="text-white hover:text-red-500"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      title="Eliminar del carrito"
+                      title={translations[language]?.remove}
                     >
                       <FaTrash />
                     </motion.button>
@@ -255,7 +255,7 @@ const CartComponent = () => {
               transition={{ delay: 0.3 }}
             >
               <div className="flex justify-between text-xl mb-4">
-                <span className="text-white">Total:</span>
+                <span className="text-white">{translations[language]?.total}:</span>
                 <span className="text-[#E8B4B8] font-bold">€{totalBeforeDiscount.toFixed(2)}</span>
               </div>
 
@@ -267,7 +267,7 @@ const CartComponent = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                Continuar
+                {translations[language]?.continue}
               </motion.button>
             </motion.div>
           </motion.div>
@@ -278,3 +278,4 @@ const CartComponent = () => {
 }
 
 export default CartComponent
+
