@@ -5,8 +5,6 @@ import { Icon } from "@iconify/react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 import useStore from "../store/store"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/navigation"
 // Aquí tienes tus secciones
@@ -15,7 +13,8 @@ import MenuItem from "./MenuItem"
 
 const RestaurantLayout = () => {
   const navigate = useNavigate()
-  const { cartItems } = useStore()
+  const store = useStore()
+  const cartItems = store?.cartItems || []
 
   // -- Estado para popup (opcional, puedes quitarlo)
   const [showRatePopup, setShowRatePopup] = useState(false)
@@ -152,10 +151,10 @@ const RestaurantLayout = () => {
               <motion.button
                 onClick={() => setShowRatePopup(false)}
                 className="bg-gradient-to-r from-[#FFFFFF] to-[#E8B4B8] 
-                        hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
-                        text-white py-3 px-6 rounded-xl transition-all duration-500 
-                        transform hover:-translate-y-1 font-semibold shadow-lg 
-                        hover:shadow-[#FFFFFF]/20"
+                       hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
+                       text-white py-3 px-6 rounded-xl transition-all duration-500 
+                       transform hover:-translate-y-1 font-semibold shadow-lg 
+                       hover:shadow-[#FFFFFF]/20"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -169,15 +168,15 @@ const RestaurantLayout = () => {
       {/* ========== HEADER ========== */}
       <motion.header
         className="
-        backdrop-blur-lg
-        bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
-        shadow-lg
-        border-b
-        border-customPink-300/20
-        sticky
-        top-0
-        z-10
-      "
+       backdrop-blur-lg
+       bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
+       shadow-lg
+       border-b
+       border-customPink-300/20
+       sticky
+       top-0
+       z-10
+     "
         variants={headerVariants}
         initial="hidden"
         animate="visible"
@@ -187,11 +186,11 @@ const RestaurantLayout = () => {
             {/* Flecha atrás */}
             <motion.button
               className="
-              text-white
-              transition-colors
-              duration-300
-              z-10
-            "
+             text-white
+             transition-colors
+             duration-300
+             z-10
+           "
               onClick={() => navigate("/slider/ramosilvestre")}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -234,26 +233,26 @@ const RestaurantLayout = () => {
                 {cartItems.length > 0 && (
                   <motion.span
                     className="
-                    absolute
-                    -top-2
-                    -right-2
-                    bg-gradient-to-r
-                    from-customPink-500
-                    to-customPink-600
-                    text-white
-                    text-xs
-                    rounded-full
-                    h-5
-                    w-5
-                    flex
-                    items-center
-                    justify-center
-                  "
+                   absolute
+                   -top-2
+                   -right-2
+                   bg-gradient-to-r
+                   from-customPink-500
+                   to-customPink-600
+                   text-white
+                   text-xs
+                   rounded-full
+                   h-5
+                   w-5
+                   flex
+                   items-center
+                   justify-center
+                 "
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", stiffness: 500, damping: 15 }}
                   >
-                    {cartItems.reduce((sum, it) => sum + it.quantity, 0)}
+                    {cartItems.reduce((sum, it) => sum + (it.quantity || 1), 0)}
                   </motion.span>
                 )}
               </motion.button>
@@ -301,46 +300,29 @@ const RestaurantLayout = () => {
         initial="hidden"
         animate="visible"
       >
-        <Swiper
-          modules={[Navigation]}
-          slidesPerView={4}
-          initialSlide={SECTIONS.findIndex((s) => s.id === activeSectionId) || 0}
-          navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
-          }}
-          style={{ display: "flex", position: "static" }}
-          className="justify-center items-center w-full px-8 h-full"
-        >
+        <div className="flex justify-around items-center h-full px-2">
           {SECTIONS.map((section, index) => {
             const IconComp = section.icon
             const isActive = activeSectionId === section.id
             return (
-              <SwiperSlide
+              <motion.button
                 key={section.id}
-                className="w-auto flex justify-center items-center"
-                style={{ width: "20%", display: "flex" }}
+                onClick={() => scrollToSection(section.id)}
+                className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item 
+                 ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                aria-label={section.label}
               >
-                <motion.button
-                  onClick={() => scrollToSection(section.id)}
-                  className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item 
-                  ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
-                  aria-label={section.label}
-                >
-                  <IconComp className="text-3xl" />
-                  {section.id === "workshops" && <span className="text-xs mt-1">Talleres</span>}
-                </motion.button>
-              </SwiperSlide>
+                <IconComp className="text-3xl" />
+                {section.id === "workshops" && <span className="text-xs mt-1">Talleres</span>}
+              </motion.button>
             )
           })}
-          <motion.button className="swiper-button-prev"></motion.button>
-          <motion.button className="swiper-button-next absolute right-0 p-2 text-gray-300 hover:text-white"></motion.button>
-        </Swiper>
+        </div>
       </motion.nav>
     </div>
   )
