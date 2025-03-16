@@ -87,25 +87,17 @@ body,
   touch-action: pan-y;
 }
 
-/* Restore original pagination style */
+/* Ensure pagination bullets are visible */
 .swiper-pagination-bullet {
   background: rgba(255, 255, 255, 0.7);
-  width: 6px;
-  height: 6px;
-  opacity: 0.7;
+  width: 8px;
+  height: 8px;
 }
 
 .swiper-pagination-bullet-active {
   background: #e8b4b8;
-  opacity: 1;
-}
-
-/* Hide horizontal pagination on mobile */
-@media (max-width: 768px) {
-  .swiper-horizontal > .swiper-pagination-bullets,
-  .swiper-pagination-bullets.swiper-pagination-horizontal {
-    bottom: 70px;
-  }
+  width: 10px;
+  height: 10px;
 }
 
 /* Add this to your existing CSS */
@@ -132,4 +124,3 @@ body,
 .nav-item:not(.active) {
   opacity: 0.7;
 }
-
