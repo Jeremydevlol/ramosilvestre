@@ -24,6 +24,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
   const navigate = useNavigate()
   const { cartItems, addToCart, toggleFavorite, favorites, language } = useStore()
   const [isPlaying, setIsPlaying] = useState(false)
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
 
   // Variantes para animar la aparición del post
   const postVariants = {
@@ -45,6 +46,16 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
   const containerRef = useRef(null)
   const videoRef = useRef(null)
 
+  // Update viewport height on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight)
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
   // Detectar si el contenedor está en vista
   const isInView = useInView(containerRef, { threshold: 0 })
   // Detectar si el video debe reproducirse
@@ -63,6 +74,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
   }, [shouldPlay])
 
   const isMobile = () => /webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+  const isSmallScreen = viewportHeight < 700
 
   // Animation variants for text elements
   const titleVariants = {
@@ -119,8 +131,8 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
     <motion.div
       key={`${activeSection}-${post.id}`}
       id={`post-${activeSection}-${post.id}`}
-      className="relative w-full h-screen overflow-hidden bg-black text-white font-playfair"
-      style={{ height: "100vh" }}
+      className="relative w-full overflow-hidden bg-black text-white font-playfair"
+      style={{ height: "100vh", maxHeight: "-webkit-fill-available" }}
       variants={postVariants}
       initial="hidden"
       animate="visible"
@@ -160,23 +172,23 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
         )}
 
         {/* Gradient overlay for better text visibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
       </motion.div>
 
       {/* BOTONES DERECHA (Favorito, Añadir, etc.) */}
       <div
-        className="absolute flex flex-col gap-4 z-30 justify-center right-0"
+        className="absolute flex flex-col gap-3 z-30 justify-center right-0"
         style={{
-          bottom: isMobile() ? "var(--navbar-height-mobile)" : "var(--navbar-height)",
-          padding: "0 18px 22px 0",
+          bottom: isMobile() ? "calc(var(--navbar-height-mobile) + 10px)" : "calc(var(--navbar-height) + 10px)",
+          padding: "0 18px 0 0",
         }}
       >
         {/* Botón Menú */}
         <motion.button
           onClick={() => navigate("/menu/ramosilvestre")}
-          className="w-11 h-11 backdrop-blur-sm bg-black/50 rounded-full
+          className={`${isSmallScreen ? "w-9 h-9" : "w-11 h-11"} backdrop-blur-sm bg-black/50 rounded-full
                     hover:bg-white/10 active:bg-white/20 flex items-center justify-center
-                    shadow-lg shadow-black/10 border border-white/20"
+                    shadow-lg shadow-black/10 border border-white/20`}
           whileHover={buttonVariants.hover}
           whileTap={buttonVariants.tap}
           initial={{ opacity: 0, x: 20 }}
@@ -184,7 +196,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
           transition={{ delay: 0.6, duration: 0.4 }}
           aria-label="Modo menu"
         >
-          <TiThMenuOutline className="w-6 h-6" />
+          <TiThMenuOutline className={`${isSmallScreen ? "w-5 h-5" : "w-6 h-6"}`} />
         </motion.button>
 
         {/* Botón Favorito */}
@@ -222,14 +234,14 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
       <div
         className="absolute bottom-0 flex z-10 w-full"
         style={{
-          paddingBottom: isMobile() ? "calc(var(--navbar-height-mobile) + 20px)" : "calc(var(--navbar-height) + 20px)",
+          bottom: isMobile() ? "var(--navbar-height-mobile)" : "var(--navbar-height)",
         }}
       >
-        <section className="w-full items-end justify-between px-5 py-4">
-          <div className="max-w-full w-[90%] md:w-[88%] h-full space-y-2">
+        <section className="w-full items-end justify-between px-5 pb-4">
+          <div className="max-w-full w-[90%] md:w-[88%] h-full space-y-1">
             {/* TÍTULO */}
             <motion.h2
-              className="text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
+              className={`${isSmallScreen ? "text-2xl" : "text-3xl"} font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]`}
               variants={titleVariants}
               initial="hidden"
               animate="visible"
@@ -240,7 +252,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
             {/* PRECIO y AUTOR */}
             <motion.div className="flex items-center gap-4" variants={priceVariants} initial="hidden" animate="visible">
               <motion.p
-                className="text-xl font-bold text-[#E8B4B8] drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
+                className={`${isSmallScreen ? "text-lg" : "text-xl"} font-bold text-[#E8B4B8] drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]`}
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
@@ -254,12 +266,14 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
 
             {/* DESCRIPCIÓN */}
             <motion.div
-              className="flex flex-col text-base space-between mt-1"
+              className="flex flex-col text-base space-between"
               variants={descriptionVariants}
               initial="hidden"
               animate="visible"
             >
-              <p className="text-white text-lg drop-shadow-[0_1px_2px_rgba(0,0,0,1)]">
+              <p
+                className={`${isSmallScreen ? "text-base line-clamp-2" : "text-lg"} text-white drop-shadow-[0_1px_2px_rgba(0,0,0,1)]`}
+              >
                 {expandedPost === post.id ? post.longDescription : post.description}
                 {expandedPost !== post.id && (
                   <motion.span
@@ -278,7 +292,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
                 {expandedPost === post.id && (
                   <motion.p
                     onClick={() => handleExpand(post.id)}
-                    className="underline cursor-pointer text-center mt-2 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
+                    className="underline cursor-pointer text-center mt-1 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
