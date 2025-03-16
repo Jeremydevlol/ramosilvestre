@@ -8,7 +8,7 @@ import useStore from "../store/store"
 import "swiper/css"
 import "swiper/css/navigation"
 // Aquí tienes tus secciones
-import { SECTIONS, LogoImage, translations, languageFlags } from "../data/constants"
+import { getSections, LogoImage, translations, languageFlags } from "../data/constants"
 import MenuItem from "./MenuItem"
 
 const RestaurantLayout = () => {
@@ -23,8 +23,11 @@ const RestaurantLayout = () => {
   const [popupMessage] = useState("Califica este plato en Google Maps para recibir un 15% de descuento.")
   const [showLanguageModal, setShowLanguageModal] = useState(false)
 
+  // Obtener secciones localizadas según el idioma actual
+  const currentSections = getSections(language)
+
   // -- Sección activa para el header (y resaltar en la barra)
-  const [activeSectionId, setActiveSectionId] = useState(SECTIONS[0].id)
+  const [activeSectionId, setActiveSectionId] = useState(currentSections[0].id)
 
   const [paddingLeft, setPaddingLeft] = useState("10px")
   const [paddingRight, setPaddingRight] = useState("10px")
@@ -66,14 +69,16 @@ const RestaurantLayout = () => {
       })
     }
   }, [])
+
   useEffect(() => {
     if (swiperRef.current) {
-      const index = SECTIONS.findIndex((sec) => sec.id === activeSectionId)
+      const index = currentSections.findIndex((sec) => sec.id === activeSectionId)
       if (index !== -1) {
         swiperRef.current.slideTo(index)
       }
     }
-  }, [activeSectionId])
+  }, [activeSectionId, currentSections])
+
   // -- Función para scrollear al hacer clic en un ícono
   const scrollToSection = (sectionId, offset = 100) => {
     setActiveSectionId(sectionId)
@@ -191,7 +196,7 @@ const RestaurantLayout = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Calificar
+                {translations[language]?.close}
               </motion.button>
             </motion.div>
           </motion.div>
@@ -361,7 +366,7 @@ const RestaurantLayout = () => {
       </motion.header>
       <main className="container mx-auto px-4 pt-20 pb-32 overflow-y-auto" style={{ maxHeight: "calc(100vh - 120px)" }}>
         <motion.div className="space-y-10" variants={sectionVariants} initial="hidden" animate="visible">
-          {SECTIONS.map((section, index) => (
+          {currentSections.map((section, index) => (
             <motion.div
               key={section.id}
               id={section.id}
@@ -397,7 +402,7 @@ const RestaurantLayout = () => {
         animate="visible"
       >
         <div className="flex justify-around items-center h-full px-2">
-          {SECTIONS.map((section, index) => {
+          {currentSections.map((section, index) => {
             const IconComp = section.icon
             const isActive = activeSectionId === section.id
             return (
