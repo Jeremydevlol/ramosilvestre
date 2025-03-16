@@ -152,10 +152,10 @@ const RestaurantLayout = () => {
               <motion.button
                 onClick={() => setShowRatePopup(false)}
                 className="bg-gradient-to-r from-[#FFFFFF] to-[#E8B4B8] 
-                         hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
-                         text-white py-3 px-6 rounded-xl transition-all duration-500 
-                         transform hover:-translate-y-1 font-semibold shadow-lg 
-                         hover:shadow-[#FFFFFF]/20"
+                        hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
+                        text-white py-3 px-6 rounded-xl transition-all duration-500 
+                        transform hover:-translate-y-1 font-semibold shadow-lg 
+                        hover:shadow-[#FFFFFF]/20"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -169,15 +169,15 @@ const RestaurantLayout = () => {
       {/* ========== HEADER ========== */}
       <motion.header
         className="
-         backdrop-blur-lg
-         bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
-         shadow-lg
-         border-b
-         border-customPink-300/20
-         sticky
-         top-0
-         z-10
-       "
+        backdrop-blur-lg
+        bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
+        shadow-lg
+        border-b
+        border-customPink-300/20
+        sticky
+        top-0
+        z-10
+      "
         variants={headerVariants}
         initial="hidden"
         animate="visible"
@@ -187,14 +187,14 @@ const RestaurantLayout = () => {
             {/* Flecha atrás */}
             <motion.button
               className="
-               absolute
-               left-0
-               text-white
-               transition-colors
-               duration-300
-               z-10
-             "
-              onClick={() => navigate("/slider/atv4ruedasgalipan")}
+              absolute
+              left-0
+              text-white
+              transition-colors
+              duration-300
+              z-10
+            "
+              onClick={() => navigate("/slider/ramosilvestre")}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               initial={{ opacity: 0, x: -20 }}
@@ -207,14 +207,14 @@ const RestaurantLayout = () => {
             {/* Aquí el "Gourmet" (o la sección activa) GRANDOTE */}
             <motion.h1
               className="
-               absolute
-               inset-0
-               text-center
-               text-3xl
-               md:text-4xl
-               font-bold
-               text-white
-             "
+              absolute
+              inset-0
+              text-center
+              text-3xl
+              md:text-4xl
+              font-bold
+              text-white
+            "
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -231,7 +231,7 @@ const RestaurantLayout = () => {
                 transition={{ delay: 0.3 }}
               >
                 <motion.button
-                  onClick={() => navigate("/cart/atv4ruedasgalipan")}
+                  onClick={() => navigate("/cart/ramosilvestre")}
                   className="relative"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
@@ -245,21 +245,21 @@ const RestaurantLayout = () => {
                   {cartItems.length > 0 && (
                     <motion.span
                       className="
-                       absolute
-                       -top-2
-                       -right-2
-                       bg-gradient-to-r
-                       from-customPink-500
-                       to-customPink-600
-                       text-white
-                       text-xs
-                       rounded-full
-                       h-5
-                       w-5
-                       flex
-                       items-center
-                       justify-center
-                     "
+                      absolute
+                      -top-2
+                      -right-2
+                      bg-gradient-to-r
+                      from-customPink-500
+                      to-customPink-600
+                      text-white
+                      text-xs
+                      rounded-full
+                      h-5
+                      w-5
+                      flex
+                      items-center
+                      justify-center
+                    "
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -336,7 +336,7 @@ const RestaurantLayout = () => {
                 <motion.button
                   onClick={() => scrollToSection(section.id)}
                   className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item 
-                   ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
+                  ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, y: 20 }}
