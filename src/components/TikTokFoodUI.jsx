@@ -134,22 +134,22 @@ const TikTokFoodUI = () => {
       <motion.header
         key={activeSectionIndex}
         className="fixed top-0 left-0 right-0 z-50 
-    backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
-    py-4 px-4"
+   backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
+   py-4 px-4"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="flex items-center justify-between h-full relative">
-          {/* Left - Language Button */}
+          {/* Left - Back Button */}
           <motion.button
-            onClick={() => setShowLanguageModal(true)}
+            onClick={() => navigate(-1)}
             className="w-9 h-9 flex items-center justify-center bg-black/30 rounded-full"
             whileHover={buttonVariants.hover}
             whileTap={buttonVariants.tap}
-            aria-label="Cambiar idioma"
+            aria-label="Volver"
           >
-            <Icon icon={languageFlags[language]} width="20" height="20" />
+            <Icon icon="pepicons-pencil:arrow-left" width="20" height="20" />
           </motion.button>
 
           {/* Center - Logo */}
@@ -178,8 +178,8 @@ const TikTokFoodUI = () => {
             {cartItems.length > 0 && (
               <span
                 className="absolute -top-1 -right-1 bg-customPink-500 
-                text-white text-xs rounded-full h-4 w-4 
-                flex items-center justify-center"
+               text-white text-xs rounded-full h-4 w-4 
+               flex items-center justify-center"
               >
                 {cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0)}
               </span>
@@ -187,6 +187,25 @@ const TikTokFoodUI = () => {
           </motion.button>
         </div>
       </motion.header>
+
+      {/* Language Selector Button - Positioned below header */}
+      <motion.div
+        className="fixed top-20 left-0 right-0 z-40 flex justify-center"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <motion.button
+          onClick={() => setShowLanguageModal(true)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-customPink-500/80 to-customPink-600/80 backdrop-blur-md shadow-lg border border-white/20"
+          whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.2)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Icon icon={languageFlags[language]} width="20" height="20" className="rounded-sm" />
+          <span className="font-medium text-white">{translations[language]?.language}</span>
+          <Icon icon="mdi:chevron-down" className="text-white ml-1" width="16" height="16" />
+        </motion.button>
+      </motion.div>
 
       {/* Language Modal */}
       <AnimatePresence>
@@ -199,7 +218,7 @@ const TikTokFoodUI = () => {
             onClick={() => setShowLanguageModal(false)}
           >
             <motion.div
-              className="bg-[#001a1a] rounded-2xl p-6 w-[85%] max-w-sm"
+              className="bg-gradient-to-b from-customPink-500/20 to-black/90 rounded-2xl p-6 w-[85%] max-w-sm border border-customPink-500/30 shadow-xl"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
@@ -215,20 +234,22 @@ const TikTokFoodUI = () => {
                   <motion.button
                     key={langCode}
                     onClick={() => handleLanguageChange(langCode)}
-                    className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${
+                    className={`flex items-center gap-4 w-full p-4 rounded-xl transition-colors ${
                       language === langCode
-                        ? "bg-customPink-500 text-white"
-                        : "bg-black/30 text-white/80 hover:bg-black/50"
+                        ? "bg-gradient-to-r from-customPink-500 to-customPink-600 text-white"
+                        : "bg-black/50 text-white/80 hover:bg-black/70 border border-white/10"
                     }`}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Icon
-                      icon={languageFlags[langCode]}
-                      width="28"
-                      height="28"
-                      className="rounded-md overflow-hidden"
-                    />
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white/10">
+                      <Icon
+                        icon={languageFlags[langCode]}
+                        width="28"
+                        height="28"
+                        className="rounded-md overflow-hidden"
+                      />
+                    </div>
                     <div className="flex flex-col items-start">
                       <span className="font-medium">{translations[langCode].language}</span>
                       <span className="text-xs opacity-70">{translations[langCode].languageCode}</span>
@@ -242,7 +263,7 @@ const TikTokFoodUI = () => {
 
               <motion.button
                 onClick={() => setShowLanguageModal(false)}
-                className="mt-6 w-full bg-black/50 hover:bg-black/70 text-white py-3 rounded-xl transition-colors"
+                className="mt-6 w-full bg-gradient-to-r from-black/70 to-black/90 hover:from-black/80 hover:to-black/100 text-white py-3 rounded-xl transition-colors border border-white/10"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
