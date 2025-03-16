@@ -36,7 +36,14 @@ const TikTokFoodUI = () => {
   const [activeMode, setActiveMode] = useState("restaurante")
   const [isSwiping, setIsSwiping] = useState(false)
 
-  const { cartItems, language, setLanguage, isScrollEnabled, toggleScroll } = useStore()
+  // Usar valores por defecto en caso de que el store no esté inicializado
+  const store = useStore()
+  const cartItems = store?.cartItems || []
+  const language = store?.language || "es"
+  const isScrollEnabled = store?.isScrollEnabled !== undefined ? store.isScrollEnabled : true
+  const setLanguage = store?.setLanguage || (() => {})
+  const toggleScroll = store?.toggleScroll || (() => {})
+
   const navigate = useNavigate()
 
   // Índice de sección activa (Swiper horizontal)
@@ -148,7 +155,7 @@ const TikTokFoodUI = () => {
                  text-white text-xs rounded-full h-4 w-4 
                  flex items-center justify-center"
               >
-                {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+                {cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0)}
               </span>
             )}
           </motion.button>
