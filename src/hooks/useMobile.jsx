@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
+"use client"
+
+import { useState, useEffect } from "react"
 
 const useIsMobile = () => {
-  const checkMobile = () => {
-    return (
-      /webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      ) || window.innerWidth <= 768
-    );
-  };
-
-  const [isMobile, setIsMobile] = useState(checkMobile());
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(checkMobile());
-    };
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    // Check on mount
+    checkIfMobile()
 
-  return isMobile;
-};
+    // Add event listener for window resize
+    window.addEventListener("resize", checkIfMobile)
 
-export default useIsMobile;
+    // Clean up
+    return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
+
+  return isMobile
+}
+
+export default useIsMobile
+
