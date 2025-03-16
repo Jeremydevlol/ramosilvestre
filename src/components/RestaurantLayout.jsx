@@ -189,10 +189,10 @@ const RestaurantLayout = () => {
               <motion.button
                 onClick={() => setShowRatePopup(false)}
                 className="bg-gradient-to-r from-[#FFFFFF] to-[#E8B4B8] 
-                      hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
-                      text-white py-3 px-6 rounded-xl transition-all duration-500 
-                      transform hover:-translate-y-1 font-semibold shadow-lg 
-                      hover:shadow-[#FFFFFF]/20"
+                     hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
+                     text-white py-3 px-6 rounded-xl transition-all duration-500 
+                     transform hover:-translate-y-1 font-semibold shadow-lg 
+                     hover:shadow-[#FFFFFF]/20"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -214,7 +214,7 @@ const RestaurantLayout = () => {
             onClick={() => setShowLanguageModal(false)}
           >
             <motion.div
-              className="bg-[#001a1a] rounded-2xl p-6 w-[85%] max-w-sm"
+              className="bg-gradient-to-b from-customPink-500/20 to-black/90 rounded-2xl p-6 w-[85%] max-w-sm border border-customPink-500/30 shadow-xl"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
@@ -230,20 +230,22 @@ const RestaurantLayout = () => {
                   <motion.button
                     key={langCode}
                     onClick={() => handleLanguageChange(langCode)}
-                    className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${
+                    className={`flex items-center gap-4 w-full p-4 rounded-xl transition-colors ${
                       language === langCode
-                        ? "bg-customPink-500 text-white"
-                        : "bg-black/30 text-white/80 hover:bg-black/50"
+                        ? "bg-gradient-to-r from-customPink-500 to-customPink-600 text-white"
+                        : "bg-black/50 text-white/80 hover:bg-black/70 border border-white/10"
                     }`}
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <Icon
-                      icon={languageFlags[langCode]}
-                      width="28"
-                      height="28"
-                      className="rounded-md overflow-hidden"
-                    />
+                    <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white/10">
+                      <Icon
+                        icon={languageFlags[langCode]}
+                        width="28"
+                        height="28"
+                        className="rounded-md overflow-hidden"
+                      />
+                    </div>
                     <div className="flex flex-col items-start">
                       <span className="font-medium">{translations[langCode].language}</span>
                       <span className="text-xs opacity-70">{translations[langCode].languageCode}</span>
@@ -257,7 +259,7 @@ const RestaurantLayout = () => {
 
               <motion.button
                 onClick={() => setShowLanguageModal(false)}
-                className="mt-6 w-full bg-black/50 hover:bg-black/70 text-white py-3 rounded-xl transition-colors"
+                className="mt-6 w-full bg-gradient-to-r from-black/70 to-black/90 hover:from-black/80 hover:to-black/100 text-white py-3 rounded-xl transition-colors border border-white/10"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -271,34 +273,33 @@ const RestaurantLayout = () => {
       {/* ========== HEADER ========== */}
       <motion.header
         className="
-      backdrop-blur-lg
-      bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
-      shadow-lg
-      border-b
-      border-customPink-300/20
-      sticky
-      top-0
-      z-10
-    "
+     backdrop-blur-lg
+     bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
+     shadow-lg
+     border-b
+     border-customPink-300/20
+     sticky
+     top-0
+     z-10
+   "
         variants={headerVariants}
         initial="hidden"
         animate="visible"
       >
         <div className="container mx-auto px-4 py-4">
           <div className="relative flex items-center justify-between h-[42px]">
-            {/* Left - Language Button */}
+            {/* Left - Back Button */}
             <div className="flex-1">
               <motion.button
                 className="text-white transition-colors duration-300 z-10 flex items-center gap-2"
-                onClick={() => setShowLanguageModal(true)}
+                onClick={() => navigate(-1)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <Icon icon={languageFlags[language]} width="20" height="20" className="rounded-sm" />
-                <span className="text-xs font-medium">{translations[language]?.languageCode}</span>
+                <Icon icon="pepicons-pencil:arrow-left" width="24" height="24" />
               </motion.button>
             </div>
 
@@ -336,21 +337,21 @@ const RestaurantLayout = () => {
                   {cartItems.length > 0 && (
                     <motion.span
                       className="
-           absolute
-           -top-2
-           -right-2
-           bg-gradient-to-r
-           from-customPink-500
-           to-customPink-600
-           text-white
-           text-xs
-           rounded-full
-           h-5
-           w-5
-           flex
-           items-center
-           justify-center
-         "
+          absolute
+          -top-2
+          -right-2
+          bg-gradient-to-r
+          from-customPink-500
+          to-customPink-600
+          text-white
+          text-xs
+          rounded-full
+          h-5
+          w-5
+          flex
+          items-center
+          justify-center
+        "
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -364,7 +365,27 @@ const RestaurantLayout = () => {
           </div>
         </div>
       </motion.header>
-      <main className="container mx-auto px-4 pt-20 pb-32 overflow-y-auto" style={{ maxHeight: "calc(100vh - 120px)" }}>
+
+      {/* Language Selector Button - Positioned below header */}
+      <motion.div
+        className="sticky top-[70px] z-40 flex justify-center mb-4"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <motion.button
+          onClick={() => setShowLanguageModal(true)}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-customPink-500/80 to-customPink-600/80 backdrop-blur-md shadow-lg border border-white/20"
+          whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.2)" }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Icon icon={languageFlags[language]} width="20" height="20" className="rounded-sm" />
+          <span className="font-medium text-white">{translations[language]?.language}</span>
+          <Icon icon="mdi:chevron-down" className="text-white ml-1" width="16" height="16" />
+        </motion.button>
+      </motion.div>
+
+      <main className="container mx-auto px-4 pt-4 pb-32 overflow-y-auto" style={{ maxHeight: "calc(100vh - 120px)" }}>
         <motion.div className="space-y-10" variants={sectionVariants} initial="hidden" animate="visible">
           {currentSections.map((section, index) => (
             <motion.div
@@ -410,7 +431,7 @@ const RestaurantLayout = () => {
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item 
-                ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
+               ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, y: 20 }}
