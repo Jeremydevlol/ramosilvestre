@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules"
 import "swiper/css"
 import "swiper/css/navigation"
 // Aquí tienes tus secciones
-import { SECTIONS } from "../data/constants"
+import { SECTIONS, LogoImage } from "../data/constants"
 import MenuItem from "./MenuItem"
 
 const RestaurantLayout = () => {
@@ -202,20 +202,15 @@ const RestaurantLayout = () => {
               <Icon icon="pepicons-pencil:arrow-left" width="28" height="28" className="inline-block" />
             </motion.button>
 
-            {/* Título central */}
-            <motion.h1
-              className="
-              text-3xl
-              md:text-4xl
-              font-bold
-              text-white
-            "
+            {/* Logo central */}
+            <motion.div
+              className="absolute left-1/2 transform -translate-x-1/2"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              RAMO SILVESTRE
-            </motion.h1>
+              <LogoImage className="h-8 w-auto" />
+            </motion.div>
 
             {/* Carrito a la derecha */}
             <motion.div
