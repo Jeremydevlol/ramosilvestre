@@ -47,9 +47,6 @@ const TikTokFoodUI = () => {
   const verticalSwipersRef = useRef([])
   const sectionsSwiperRef = useRef(null)
 
-  const [paddingLeft, setPaddingLeft] = useState("10px")
-  const [paddingRight, setPaddingRight] = useState("10px")
-
   const currentSections = SECTIONS
 
   // Expandir/cerrar un Post
@@ -75,17 +72,6 @@ const TikTokFoodUI = () => {
   const onHorizontalSlideChange = (swiperInstance) => {
     const activeIndex = swiperInstance.activeIndex
     setActiveSectionIndex(activeIndex)
-
-    // Sincronizar el swiper de secciones con el swiper principal
-    const sectionRef = sectionsSwiperRef.current
-    if (sectionRef) {
-      const isVisible =
-        activeIndex >= sectionRef.activeIndex && activeIndex < sectionRef.activeIndex + sectionRef.params.slidesPerView
-
-      if (!isVisible) {
-        sectionRef.slideTo(activeIndex)
-      }
-    }
   }
 
   // Animaciones para botones y modal
@@ -97,21 +83,9 @@ const TikTokFoodUI = () => {
     tap: { scale: 0.95 },
   }
 
-  const modalVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: "spring", stiffness: 300, damping: 30 },
-    },
-  }
-
   // Uso de useEffect si hay un :id en la URL
   useEffect(() => {
     if (id) {
-      // Aquí podrías, por ejemplo, buscar datos de ese "id" en tu base de datos
-      // o cambiar a una sección específica, etc.
       console.log("Se recibió un ID en la URL:", id)
     }
   }, [id])
