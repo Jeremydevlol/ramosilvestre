@@ -170,10 +170,10 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
       >
         {/* Botón Menú */}
         <motion.button
-          onClick={() => navigate("/menu/atv4ruedasgalipan")}
+          onClick={() => navigate("/menu/ramosilvestre")}
           className="w-11 h-11 backdrop-blur-sm bg-black/50 rounded-full
-                     hover:bg-white/10 active:bg-white/20 flex items-center justify-center
-                     shadow-lg shadow-black/10 border border-white/20"
+                    hover:bg-white/10 active:bg-white/20 flex items-center justify-center
+                    shadow-lg shadow-black/10 border border-white/20"
           whileHover={buttonVariants.hover}
           whileTap={buttonVariants.tap}
           initial={{ opacity: 0, x: 20 }}
@@ -226,7 +226,7 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
           <div className="max-w-full w-[90%] md:w-[88%] h-full space-y-2">
             {/* TÍTULO */}
             <motion.h2
-              className="text-2xl font-bold text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)]"
+              className="text-3xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
               variants={titleVariants}
               initial="hidden"
               animate="visible"
@@ -237,14 +237,14 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
             {/* PRECIO y AUTOR */}
             <motion.div className="flex items-center gap-4" variants={priceVariants} initial="hidden" animate="visible">
               <motion.p
-                className="text-lg font-bold text-[#E8B4B8] drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]"
+                className="text-xl font-bold text-[#E8B4B8] drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
                 {post.price}
               </motion.p>
 
-              <motion.p className="text-base text-white/90 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
+              <motion.p className="text-base text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
                 @{post.author}
               </motion.p>
             </motion.div>
@@ -256,26 +256,28 @@ const PostComponent = memo(({ post, expandedPost, handleExpand, activeSection })
               initial="hidden"
               animate="visible"
             >
-              <p className="text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
-                {expandedPost === post.id ? post.longDescription : post.description}
-                {expandedPost !== post.id && (
-                  <motion.span
-                    onClick={() => handleExpand(post.id)}
-                    className="underline cursor-pointer ml-2 text-[#E8B4B8] hover:text-[#F2D5D8]"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {translations[language].seeMore}
-                  </motion.span>
-                )}
-              </p>
+              <div className="bg-black/40 backdrop-blur-sm p-3 rounded-lg">
+                <p className="text-white text-lg drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+                  {expandedPost === post.id ? post.longDescription : post.description}
+                  {expandedPost !== post.id && (
+                    <motion.span
+                      onClick={() => handleExpand(post.id)}
+                      className="underline cursor-pointer ml-2 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {translations[language].seeMore}
+                    </motion.span>
+                  )}
+                </p>
+              </div>
 
               {/* SI EXPANDIDO: VER MENOS */}
               <AnimatePresence>
                 {expandedPost === post.id && (
                   <motion.p
                     onClick={() => handleExpand(post.id)}
-                    className="underline cursor-pointer text-center mt-2 text-[#E8B4B8] hover:text-[#F2D5D8]"
+                    className="underline cursor-pointer text-center mt-2 text-[#E8B4B8] hover:text-[#F2D5D8] font-medium"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
