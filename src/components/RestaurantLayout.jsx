@@ -8,17 +8,20 @@ import useStore from "../store/store"
 import "swiper/css"
 import "swiper/css/navigation"
 // Aquí tienes tus secciones
-import { SECTIONS, LogoImage } from "../data/constants"
+import { SECTIONS, LogoImage, translations, languageFlags } from "../data/constants"
 import MenuItem from "./MenuItem"
 
 const RestaurantLayout = () => {
   const navigate = useNavigate()
   const store = useStore()
   const cartItems = store?.cartItems || []
+  const language = store?.language || "es"
+  const setLanguage = store?.setLanguage || (() => {})
 
   // -- Estado para popup (opcional, puedes quitarlo)
   const [showRatePopup, setShowRatePopup] = useState(false)
   const [popupMessage] = useState("Califica este plato en Google Maps para recibir un 15% de descuento.")
+  const [showLanguageModal, setShowLanguageModal] = useState(false)
 
   // -- Sección activa para el header (y resaltar en la barra)
   const [activeSectionId, setActiveSectionId] = useState(SECTIONS[0].id)
@@ -32,6 +35,12 @@ const RestaurantLayout = () => {
     if (el) {
       sectionsRef.current[index] = el
     }
+  }
+
+  // Cambio de idioma
+  const handleLanguageChange = (langCode) => {
+    setLanguage(langCode)
+    setShowLanguageModal(false)
   }
 
   useEffect(() => {
@@ -125,6 +134,30 @@ const RestaurantLayout = () => {
     },
   }
 
+  const modalVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 30 },
+    },
+    exit: {
+      opacity: 0,
+      y: 50,
+      scale: 0.95,
+      transition: { duration: 0.2 },
+    },
+  }
+
+  const buttonVariants = {
+    hover: {
+      scale: 1.05,
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+    },
+    tap: { scale: 0.95 },
+  }
+
   return (
     <div className="min-h-screen bg-black text-white relative font-playfair">
       {/* Popup (opcional) */}
@@ -151,10 +184,10 @@ const RestaurantLayout = () => {
               <motion.button
                 onClick={() => setShowRatePopup(false)}
                 className="bg-gradient-to-r from-[#FFFFFF] to-[#E8B4B8] 
-                       hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
-                       text-white py-3 px-6 rounded-xl transition-all duration-500 
-                       transform hover:-translate-y-1 font-semibold shadow-lg 
-                       hover:shadow-[#FFFFFF]/20"
+                      hover:from-[#E8B4B8] hover:to-[#FFFFFF] 
+                      text-white py-3 px-6 rounded-xl transition-all duration-500 
+                      transform hover:-translate-y-1 font-semibold shadow-lg 
+                      hover:shadow-[#FFFFFF]/20"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -165,36 +198,102 @@ const RestaurantLayout = () => {
         )}
       </AnimatePresence>
 
+      {/* Language Modal */}
+      <AnimatePresence>
+        {showLanguageModal && (
+          <motion.div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowLanguageModal(false)}
+          >
+            <motion.div
+              className="bg-[#001a1a] rounded-2xl p-6 w-[85%] max-w-sm"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-2xl font-bold text-white mb-6 text-center">
+                {translations[language]?.selectLanguage || "Seleccionar idioma"}
+              </h2>
+
+              <div className="space-y-4">
+                {Object.keys(translations).map((langCode) => (
+                  <motion.button
+                    key={langCode}
+                    onClick={() => handleLanguageChange(langCode)}
+                    className={`flex items-center gap-4 w-full p-3 rounded-xl transition-colors ${
+                      language === langCode
+                        ? "bg-customPink-500 text-white"
+                        : "bg-black/30 text-white/80 hover:bg-black/50"
+                    }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Icon
+                      icon={languageFlags[langCode]}
+                      width="28"
+                      height="28"
+                      className="rounded-md overflow-hidden"
+                    />
+                    <div className="flex flex-col items-start">
+                      <span className="font-medium">{translations[langCode].language}</span>
+                      <span className="text-xs opacity-70">{translations[langCode].languageCode}</span>
+                    </div>
+                    {language === langCode && (
+                      <Icon icon="ph:check-circle-fill" className="ml-auto text-white" width="20" height="20" />
+                    )}
+                  </motion.button>
+                ))}
+              </div>
+
+              <motion.button
+                onClick={() => setShowLanguageModal(false)}
+                className="mt-6 w-full bg-black/50 hover:bg-black/70 text-white py-3 rounded-xl transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {translations[language]?.close || "Cerrar"}
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ========== HEADER ========== */}
       <motion.header
         className="
-       backdrop-blur-lg
-       bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
-       shadow-lg
-       border-b
-       border-customPink-300/20
-       sticky
-       top-0
-       z-10
-     "
+      backdrop-blur-lg
+      bg-gradient-to-b from-customPink-200/40 via-customPink-100/30 to-transparent
+      shadow-lg
+      border-b
+      border-customPink-300/20
+      sticky
+      top-0
+      z-10
+    "
         variants={headerVariants}
         initial="hidden"
         animate="visible"
       >
         <div className="container mx-auto px-4 py-4">
           <div className="relative flex items-center justify-between h-[42px]">
-            {/* Flecha atrás */}
+            {/* Left - Language Button */}
             <div className="flex-1">
               <motion.button
-                className="text-white transition-colors duration-300 z-10"
-                onClick={() => navigate("/slider/ramosilvestre")}
+                className="text-white transition-colors duration-300 z-10 flex items-center gap-2"
+                onClick={() => setShowLanguageModal(true)}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
               >
-                <Icon icon="pepicons-pencil:arrow-left" width="28" height="28" className="inline-block" />
+                <Icon icon={languageFlags[language]} width="20" height="20" className="rounded-sm" />
+                <span className="text-xs font-medium">{translations[language]?.languageCode}</span>
               </motion.button>
             </div>
 
@@ -232,21 +331,21 @@ const RestaurantLayout = () => {
                   {cartItems.length > 0 && (
                     <motion.span
                       className="
-            absolute
-            -top-2
-            -right-2
-            bg-gradient-to-r
-            from-customPink-500
-            to-customPink-600
-            text-white
-            text-xs
-            rounded-full
-            h-5
-            w-5
-            flex
-            items-center
-            justify-center
-          "
+           absolute
+           -top-2
+           -right-2
+           bg-gradient-to-r
+           from-customPink-500
+           to-customPink-600
+           text-white
+           text-xs
+           rounded-full
+           h-5
+           w-5
+           flex
+           items-center
+           justify-center
+         "
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 500, damping: 15 }}
@@ -270,7 +369,7 @@ const RestaurantLayout = () => {
               className="scroll-mt-24"
             >
               <motion.h2 className="text-2xl font-bold text-white mb-6 py-2 z-10" variants={sectionTitleVariants}>
-                {section.id === "workshops" ? "Talleres" : "Colección"}
+                {section.id === "workshops" ? translations[language]?.workshops : translations[language]?.collection}
               </motion.h2>
               <div className="space-y-6">
                 {section.posts.map((post, postIndex) => (
@@ -306,7 +405,7 @@ const RestaurantLayout = () => {
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={`flex flex-col items-center p-2 focus:outline-none rounded-lg nav-item 
-                 ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
+                ${isActive ? "active text-[#E8B4B8]" : "text-gray-400 hover:text-white"}`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 initial={{ opacity: 0, y: 20 }}
