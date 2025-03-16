@@ -138,8 +138,8 @@ const TikTokFoodUI = () => {
       <motion.header
         key={activeSectionIndex}
         className="fixed top-0 left-0 right-0 z-50 
-     backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
-     py-4 px-4"
+      backdrop-blur-md bg-gradient-to-t from-transparent via-customPink-400/40 to-customPink-500/60
+      py-4 px-4"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -158,14 +158,14 @@ const TikTokFoodUI = () => {
               stiffness: 300,
               damping: 30,
             }}
-            className="mx-auto bg-white/10 backdrop-blur-sm px-4 py-1 rounded-lg shadow-lg"
+            className="mx-auto"
           >
             <LogoImage className="h-8 w-auto" />
           </motion.div>
 
           {/* Right - Cart button */}
           <motion.button
-            onClick={() => navigate("/cart/ramosilvestre")}
+            onClick={() => navigate("/cart/atv4ruedasgalipan")}
             className="w-9 h-9 relative flex items-center justify-center"
             whileHover={buttonVariants.hover}
             whileTap={buttonVariants.tap}
@@ -175,8 +175,8 @@ const TikTokFoodUI = () => {
             {cartItems.length > 0 && (
               <span
                 className="absolute -top-1 -right-1 bg-customPink-500 
-                 text-white text-xs rounded-full h-4 w-4 
-                 flex items-center justify-center"
+                  text-white text-xs rounded-full h-4 w-4 
+                  flex items-center justify-center"
               >
                 {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
               </span>
@@ -321,4 +321,3 @@ const TikTokFoodUI = () => {
 }
 
 export default TikTokFoodUI
-
